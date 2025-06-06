@@ -122,7 +122,7 @@ const Dashboard = () => {
           {[...new Array(4)].map((_, idx) => (
             <div
               key={"first-array-demo-1" + idx}
-              className="h-20 w-full animate-pulse rounded-lg bg-gray-100 dark:bg-neutral-800"
+              className="h-20 w-full rounded-lg bg-gray-100 dark:bg-neutral-800"
             ></div>
           ))}
         </div>
@@ -130,7 +130,7 @@ const Dashboard = () => {
           {[...new Array(2)].map((_, idx) => (
             <div
               key={"second-array-demo-1" + idx}
-              className="h-full w-full animate-pulse rounded-lg bg-gray-100 dark:bg-neutral-800"
+              className="h-full w-full rounded-lg bg-gray-100 dark:bg-neutral-800"
             ></div>
           ))}
         </div>
