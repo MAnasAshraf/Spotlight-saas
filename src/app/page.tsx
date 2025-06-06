@@ -1,3 +1,9 @@
+import SidebarDemo from "@/components/sidebar-demo";
+
 export default function Home() {
-  return <></>;
+  return (
+    <main>
+      <SidebarDemo />
+    </main>
+  );
 }
