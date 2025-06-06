@@ -54,14 +54,14 @@ export default function HomePage() {
                 className="bg-neutral-800/70 border-neutral-700 text-neutral-100 placeholder:text-neutral-500 focus:ring-purple-500 focus:border-purple-500"
               />
             </div>
-            <Button type="submit" className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-semibold py-3 text-base">
+            <Button type="submit" className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-semibold py-3 text-base">
               Join the waitlist
             </Button>
           </CardContent>
           <CardFooter className="flex flex-col items-center space-y-3 pt-4 pb-5">
             <p className="text-xs text-neutral-400">
               Already have access?{" "}
-              <Link href="#" className="font-medium text-blue-400 hover:text-blue-300 underline-offset-2 hover:underline">
+              <Link href="#" className="font-medium text-purple-400 hover:text-purple-300 underline-offset-2 hover:underline">
                 Sign in
               </Link>
             </p>
