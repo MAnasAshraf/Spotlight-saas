@@ -18,8 +18,8 @@ export default function HomePage() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-background text-foreground p-6 text-center">
       <div className="max-w-3xl">
-        <h1 className="text-5xl md:text-7xl font-bold mb-6 text-primary-foreground">
-          Host Engaging Webinars. <span className="text-primary-foreground">Skyrocket Your Sales.</span>
+        <h1 className="text-5xl md:text-7xl font-bold mb-6 text-foreground">
+          Host Engaging Webinars. <span className="text-foreground">Skyrocket Your Sales.</span>
         </h1>
         <p className="mb-10 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
           Access an ever-growing collection of premium, meticulously crafted templates and component packs. Save time and focus on what matters—building standout websites that captivate your audience.
