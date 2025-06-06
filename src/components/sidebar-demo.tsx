@@ -20,12 +20,12 @@ import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 
 export default function SidebarDemo() {
+  const [activeLink, setActiveLink] = useState("Home");
   const links = [
     {
       label: "Home",
       href: "#",
       icon: <HomeIcon />,
-      active: true,
     },
     {
       label: "Webinars",
@@ -48,7 +48,7 @@ export default function SidebarDemo() {
   return (
     <div
       className={cn(
-        "flex w-full flex-1 flex-col overflow-hidden bg-neutral-900 md:flex-row",
+        "flex w-full flex-1 flex-col overflow-hidden bg-background md:flex-row", // Use bg-background from theme
         "h-screen"
       )}
     >
@@ -58,7 +58,12 @@ export default function SidebarDemo() {
             {open ? <Logo /> : <LogoIcon />}
             <div className="mt-12 flex flex-col gap-2">
               {links.map((link, idx) => (
-                <SidebarLink key={idx} link={link} active={link.active || false} />
+                <SidebarLink 
+                  key={idx} 
+                  link={link} 
+                  active={activeLink === link.label} 
+                  onClick={() => setActiveLink(link.label)} // Basic click handler to set active state
+                />
               ))}
             </div>
           </div>
@@ -69,6 +74,8 @@ export default function SidebarDemo() {
                 href: "#",
                 icon: <Settings />,
               }}
+              active={activeLink === "Settings"}
+              onClick={() => setActiveLink("Settings")}
             />
           </div>
         </SidebarBody>
@@ -80,10 +87,10 @@ export default function SidebarDemo() {
 
 const DashboardHeader = () => {
   return (
-    <header className="flex items-center justify-between p-6 py-5 border-b border-neutral-800">
-      <h1 className="text-xl font-semibold text-white">Home</h1>
+    <header className="flex items-center justify-between p-6 py-5 border-b border-border">
+      <h1 className="text-xl font-semibold text-foreground">Home</h1>
       <div className="flex items-center gap-3">
-        <Button variant="outline" size="icon" className="bg-neutral-800 border-neutral-700 hover:bg-neutral-700 text-neutral-300 hover:text-white">
+        <Button variant="outline" size="icon" className="bg-card border-border hover:bg-muted text-foreground hover:text-foreground">
           <Zap size={20} />
         </Button>
         <Button className="bg-primary hover:bg-primary/90 text-primary-foreground">
@@ -96,20 +103,20 @@ const DashboardHeader = () => {
 
 const ConversionFeature = () => {
   const features = [
-    { text: "Create a webinar", icon: <CheckCircle size={20} className="text-green-500" /> },
+    { text: "Create a webinar", icon: <CheckCircle size={20} className="text-green-500" /> }, // Keeping green for positive check
     { text: "Get leads", icon: <CheckCircle size={20} className="text-green-500" /> },
     { text: "Conversion status", icon: <CheckCircle size={20} className="text-green-500" /> },
   ];
 
   return (
     <div className="p-6">
-      <h2 className="text-3xl font-semibold text-white mb-1">Get maximum Conversion from your webinars</h2>
-      <p className="text-neutral-400 mb-6">Unlock the full potential of your online presentations.</p>
+      <h2 className="text-3xl font-semibold text-foreground mb-1">Get maximum Conversion from your webinars</h2>
+      <p className="text-muted-foreground mb-6">Unlock the full potential of your online presentations.</p>
       <div className="space-y-3">
         {features.map((feature, index) => (
           <div key={index} className="flex items-center gap-3">
             {feature.icon}
-            <span className="text-neutral-200 text-sm">{feature.text}</span>
+            <span className="text-foreground text-sm">{feature.text}</span>
           </div>
         ))}
       </div>
@@ -119,15 +126,15 @@ const ConversionFeature = () => {
 
 const ActionCard = ({ icon, title, description, href }: { icon: React.ReactNode, title: string, description: string, href?: string }) => {
   return (
-    <Card className="bg-neutral-800/70 border-neutral-700/80 text-white flex flex-col">
+    <Card className="bg-card border-border text-foreground flex flex-col">
       <CardHeader className="pb-3">
-        <div className="w-10 h-10 rounded-lg bg-neutral-700 flex items-center justify-center mb-3 text-primary">
+        <div className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center mb-3 text-accent"> {/* Use accent for icon bg */}
           {icon}
         </div>
         <CardTitle className="text-lg font-medium">{title}</CardTitle>
       </CardHeader>
       <CardContent className="flex-grow">
-        <CardDescription className="text-neutral-400 text-sm">{description}</CardDescription>
+        <CardDescription className="text-muted-foreground text-sm">{description}</CardDescription>
       </CardContent>
       {href && (
         <CardFooter>
@@ -142,14 +149,14 @@ const ActionCard = ({ icon, title, description, href }: { icon: React.ReactNode,
 
 const CustomerListItem = ({ name, email, tags }: { name: string, email: string, tags: string[] }) => {
   return (
-    <div className="py-3 border-b border-neutral-700/50 last:border-b-0">
+    <div className="py-3 border-b border-border/50 last:border-b-0">
       <div className="flex justify-between items-center">
-        <h4 className="text-sm font-medium text-neutral-100">{name}</h4>
+        <h4 className="text-sm font-medium text-foreground">{name}</h4>
       </div>
-      <p className="text-xs text-neutral-400 mb-1.5">{email}</p>
+      <p className="text-xs text-muted-foreground mb-1.5">{email}</p>
       <div className="flex flex-wrap gap-1.5">
         {tags.map(tag => (
-          <Badge key={tag} variant="secondary" className="bg-neutral-700 text-neutral-300 text-xs px-1.5 py-0.5">
+          <Badge key={tag} variant="secondary" className="bg-muted text-muted-foreground text-xs px-1.5 py-0.5">
             {tag}
           </Badge>
         ))}
@@ -174,7 +181,7 @@ const Dashboard = () => {
 
 
   return (
-    <div className="flex flex-1 flex-col bg-neutral-900 text-white overflow-y-auto">
+    <div className="flex flex-1 flex-col bg-background text-foreground overflow-y-auto">
       <DashboardHeader />
       <main className="flex-1 p-6 space-y-6">
         <ConversionFeature />
@@ -193,15 +200,15 @@ const Dashboard = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <Card className="bg-neutral-800/70 border-neutral-700/80 text-white">
+          <Card className="bg-card border-border text-foreground">
             <CardHeader>
               <div className="flex justify-between items-center">
                 <CardTitle className="text-lg font-medium">Potential Customers</CardTitle>
-                <span className="text-sm text-neutral-400">Conversions <Badge variant="secondary" className="ml-1 bg-primary/20 text-primary">50</Badge></span>
+                <span className="text-sm text-muted-foreground">Conversions <Badge variant="secondary" className="ml-1 bg-primary/20 text-primary">50</Badge></span>
               </div>
-              <CardDescription className="text-neutral-400 text-sm">See how far along are your potential customers.</CardDescription>
+              <CardDescription className="text-muted-foreground text-sm">See how far along are your potential customers.</CardDescription>
             </CardHeader>
-            <CardContent className="max-h-60 overflow-y-auto pr-2">
+            <CardContent className="max-h-60 overflow-y-auto pr-2 scrollbar-hide">
               {potentialCustomers.map((customer, idx) => (
                 <CustomerListItem key={idx} {...customer} />
               ))}
@@ -213,12 +220,12 @@ const Dashboard = () => {
             </CardFooter>
           </Card>
 
-          <Card className="bg-neutral-800/70 border-neutral-700/80 text-white">
+          <Card className="bg-card border-border text-foreground">
              <CardHeader>
               <CardTitle className="text-lg font-medium">Current Customers</CardTitle>
-              <CardDescription className="text-neutral-400 text-sm">See the list of your current customers.</CardDescription>
+              <CardDescription className="text-muted-foreground text-sm">See the list of your current customers.</CardDescription>
             </CardHeader>
-            <CardContent className="max-h-60 overflow-y-auto pr-2 opacity-75">
+            <CardContent className="max-h-60 overflow-y-auto pr-2 opacity-75 scrollbar-hide">
                {currentCustomers.map((customer, idx) => (
                 <CustomerListItem key={idx} {...customer} />
               ))}
