@@ -235,7 +235,7 @@ export const Logo = () => {
             transition={{ duration: 0.2 }}
             className="font-medium whitespace-pre text-sidebar-foreground text-lg"
           >
-            Aceternity UI
+            Auto-Webinar
           </motion.span>
         )}
       </AnimatePresence>
@@ -250,3 +250,4 @@ export const LogoIcon = () => {
     </div>
   );
 };
+
