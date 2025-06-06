@@ -54,20 +54,20 @@ export default function HomePage() {
                 className="bg-neutral-800/70 border-neutral-700 text-neutral-100 placeholder:text-neutral-500 focus:ring-purple-500 focus:border-purple-500"
               />
             </div>
-            <Button type="submit" className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-semibold py-3 text-base">
+            <Button type="submit" className="w-full bg-gradient-to-r from-purple-600 via-pink-500 to-red-500 hover:from-purple-700 hover:via-pink-600 hover:to-red-600 text-white font-semibold py-3 text-base">
               Join the waitlist
             </Button>
           </CardContent>
           <CardFooter className="flex flex-col items-center space-y-3 pt-4 pb-5">
             <p className="text-xs text-neutral-400">
               Already have access?{" "}
-              <Link href="#" className="font-medium text-purple-400 hover:text-purple-300 underline-offset-2 hover:underline">
+              <Link href="/dashboard" className="font-medium text-purple-400 hover:text-purple-300 underline-offset-2 hover:underline">
                 Sign in
               </Link>
             </p>
             <div className="flex items-center space-x-2 text-xs text-neutral-500">
               <Lock size={12} />
-              <span>Secured by <span className="font-medium text-neutral-400">OurSystem</span></span> {/* Changed Clerk to OurSystem */}
+              <span>Secured by <span className="font-medium text-neutral-400">OurSystem</span></span>
               <Badge variant="outline" className="px-1.5 py-0.5 text-xs bg-yellow-700/30 text-yellow-400 border-yellow-600/70">
                 Development mode
               </Badge>
