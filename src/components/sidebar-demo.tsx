@@ -10,9 +10,11 @@ import {
   Settings,
   UploadCloud,
   RadioTower, 
-  CheckCircle,
+  CheckCircle, // Keep for potential future use, or remove if strictly Check
   Zap,
   ArrowRight,
+  ChevronRight, // Added for stepper
+  Check, // Added for stepper completed icon
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -101,28 +103,60 @@ const DashboardHeader = () => {
   );
 };
 
-const ConversionFeature = () => {
-  const features = [
-    { text: "Create a webinar", icon: <CheckCircle size={20} className="text-primary" /> },
-    { text: "Get leads", icon: <CheckCircle size={20} className="text-primary" /> },
-    { text: "Conversion status", icon: <CheckCircle size={20} className="text-primary" /> },
-  ];
+interface StepItem {
+  id: number;
+  label: string;
+  href: string;
+  isCompleted: boolean;
+}
 
+const stepperData: StepItem[] = [
+  { id: 1, label: "Create a webinar", href: "#create-webinar", isCompleted: true },
+  { id: 2, label: "Get leads for your webinar", href: "#get-leads", isCompleted: false },
+  { id: 3, label: "Track conversion status", href: "#track-conversion", isCompleted: false },
+];
+
+const VerticalStepper = ({ steps }: { steps: StepItem[] }) => {
   return (
     <div className="p-6">
-      <h2 className="text-3xl font-semibold text-foreground mb-1">Get maximum Conversion from your webinars</h2>
-      <p className="text-muted-foreground mb-6">Unlock the full potential of your online presentations.</p>
+      <h2 className="text-2xl font-semibold text-foreground mb-1">
+        Get maximum Conversion from your webinars
+      </h2>
+      <p className="text-muted-foreground mb-6">
+        Unlock the full potential of your online presentations.
+      </p>
       <div className="space-y-3">
-        {features.map((feature, index) => (
-          <div key={index} className="flex items-center gap-3">
-            {feature.icon}
-            <span className="text-foreground text-sm">{feature.text}</span>
-          </div>
+        {steps.map((step) => (
+          <a
+            key={step.id}
+            href={step.href}
+            className="flex items-center justify-between p-4 rounded-lg bg-card border border-border hover:bg-muted transition-colors cursor-pointer group"
+          >
+            <div className="flex items-center gap-4">
+              <div
+                className={cn(
+                  "w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium shrink-0",
+                  step.isCompleted
+                    ? "iconBackground"
+                    : "bg-muted border border-border text-muted-foreground group-hover:bg-background group-hover:border-primary" 
+                )}
+              >
+                {step.isCompleted ? (
+                  <Check size={18} className="text-foreground" />
+                ) : (
+                  <span>{step.id}</span>
+                )}
+              </div>
+              <span className="text-foreground text-sm group-hover:text-primary">{step.label}</span>
+            </div>
+            <ChevronRight size={20} className="text-muted-foreground group-hover:text-primary" />
+          </a>
         ))}
       </div>
     </div>
   );
 };
+
 
 const ActionCard = ({ icon, title, description, href }: { icon: React.ReactNode, title: string, description: string, href?: string }) => {
   return (
@@ -184,7 +218,7 @@ const Dashboard = () => {
     <div className="flex flex-1 flex-col bg-background text-foreground overflow-y-auto">
       <DashboardHeader />
       <main className="flex-1 p-6 space-y-6">
-        <ConversionFeature />
+        <VerticalStepper steps={stepperData} />
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <ActionCard 
@@ -241,4 +275,3 @@ const Dashboard = () => {
     </div>
   );
 };
-
