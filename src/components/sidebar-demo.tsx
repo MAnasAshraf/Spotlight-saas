@@ -9,7 +9,7 @@ import {
   Sparkles,
   Settings,
   UploadCloud,
-  RadioTower, // Kept for ActionCard, though Target might be better for "Go Live"
+  RadioTower, 
   CheckCircle,
   Zap,
   ArrowRight,
@@ -49,7 +49,7 @@ export default function SidebarDemo() {
     <div
       className={cn(
         "flex w-full flex-1 flex-col overflow-hidden bg-background md:flex-row",
-        "h-screen" // Ensure it takes full screen height
+        "h-screen" 
       )}
     >
       <Sidebar open={open} setOpen={setOpen} animate={true}>
@@ -128,8 +128,8 @@ const ActionCard = ({ icon, title, description, href }: { icon: React.ReactNode,
   return (
     <Card className="bg-card border-border text-foreground flex flex-col">
       <CardHeader className="pb-3">
-        <div className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center mb-3 text-accent-foreground">
-          {icon}
+        <div className="w-10 h-10 rounded-lg iconBackground flex items-center justify-center mb-3">
+          {React.cloneElement(icon as React.ReactElement, { className: "text-foreground" })}
         </div>
         <CardTitle className="text-lg font-medium">{title}</CardTitle>
       </CardHeader>
@@ -193,7 +193,7 @@ const Dashboard = () => {
             description="Easily upload your existing webinar content to get started."
           />
           <ActionCard 
-            icon={<RadioTower size={22} />} // Consider Target or similar for "Go Live"
+            icon={<RadioTower size={22} />} 
             title="Go live and interact with your audience in real-time"
             description="Engage your viewers with live sessions and Q&A."
           />
