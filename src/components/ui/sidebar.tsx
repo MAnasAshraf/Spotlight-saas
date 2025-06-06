@@ -181,7 +181,9 @@ export const SidebarLink = ({
       <div
         className={cn(
           "p-2 rounded-md flex items-center justify-center transition-colors duration-150 ease-in-out",
-          active ? "bg-sidebar-primary" : "bg-transparent group-hover/sidebar:bg-sidebar-accent/50"
+          active
+            ? "iconBackground" 
+            : "bg-transparent"
         )}
       >
         {React.cloneElement(link.icon as React.ReactElement, {
@@ -189,7 +191,7 @@ export const SidebarLink = ({
             (link.icon as React.ReactElement).props.className,
             "h-5 w-5 shrink-0 transition-colors duration-150 ease-in-out",
             active
-              ? "text-sidebar-primary-foreground"
+              ? "text-foreground" 
               : "text-neutral-400 group-hover/sidebar:text-sidebar-accent-foreground"
           ),
         })}
@@ -202,7 +204,7 @@ export const SidebarLink = ({
         className={cn(
           "text-sm transition-all duration-150 ease-in-out whitespace-pre inline-block !p-0 !m-0",
           active
-            ? "text-sidebar-primary-foreground font-medium"
+            ? "text-foreground font-medium" 
             : "text-neutral-400 group-hover/sidebar:text-sidebar-accent-foreground"
         )}
       >
@@ -247,7 +249,7 @@ export const Logo = () => {
             transition={{ duration: 0.2 }}
             className="font-medium whitespace-pre text-sidebar-foreground text-lg"
           >
-            Spotlight
+            Aceternity UI
           </motion.span>
         )}
       </AnimatePresence>
@@ -262,3 +264,4 @@ export const LogoIcon = () => {
     </div>
   );
 };
+
