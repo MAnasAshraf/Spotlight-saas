@@ -103,9 +103,9 @@ const DashboardHeader = () => {
 
 const ConversionFeature = () => {
   const features = [
-    { text: "Create a webinar", icon: <CheckCircle size={20} className="text-green-500" /> },
-    { text: "Get leads", icon: <CheckCircle size={20} className="text-green-500" /> },
-    { text: "Conversion status", icon: <CheckCircle size={20} className="text-green-500" /> },
+    { text: "Create a webinar", icon: <CheckCircle size={20} className="text-primary" /> },
+    { text: "Get leads", icon: <CheckCircle size={20} className="text-primary" /> },
+    { text: "Conversion status", icon: <CheckCircle size={20} className="text-primary" /> },
   ];
 
   return (
@@ -128,7 +128,7 @@ const ActionCard = ({ icon, title, description, href }: { icon: React.ReactNode,
   return (
     <Card className="bg-card border-border text-foreground flex flex-col">
       <CardHeader className="pb-3">
-        <div className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center mb-3 text-accent-foreground"> {/* Changed text-accent to text-accent-foreground */}
+        <div className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center mb-3 text-accent-foreground">
           {icon}
         </div>
         <CardTitle className="text-lg font-medium">{title}</CardTitle>
