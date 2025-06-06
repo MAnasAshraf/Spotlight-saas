@@ -10,11 +10,11 @@ import {
   Settings,
   UploadCloud,
   RadioTower, 
-  CheckCircle, // Keep for potential future use, or remove if strictly Check
+  CheckCircle,
   Zap,
   ArrowRight,
-  ChevronRight, // Added for stepper
-  Check, // Added for stepper completed icon
+  ChevronRight, 
+  Check, 
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -90,7 +90,7 @@ export default function SidebarDemo() {
 const DashboardHeader = () => {
   return (
     <header className="flex items-center justify-between p-6 py-5 border-b border-border">
-      <h1 className="text-xl font-semibold text-foreground">Home</h1>
+      <h1 className="text-xl font-semibold text-foreground">Dashboard</h1>
       <div className="flex items-center gap-3">
         <Button variant="ghost" size="icon" className="iconBackground">
           <Zap size={20} className="text-foreground" />
@@ -137,7 +137,7 @@ const VerticalStepper = ({ steps }: { steps: StepItem[] }) => {
                 className={cn(
                   "w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium shrink-0",
                   step.isCompleted
-                    ? "iconBackground"
+                    ? "iconBackground" 
                     : "bg-muted border border-border text-muted-foreground group-hover:bg-background group-hover:border-primary" 
                 )}
               >
