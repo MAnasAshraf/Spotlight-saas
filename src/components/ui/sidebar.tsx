@@ -1,3 +1,4 @@
+
 "use client";
 import { cn } from "@/lib/utils";
 import React, { useState, createContext, useContext } from "react";
@@ -88,14 +89,14 @@ export const DesktopSidebar = ({
     <>
       <motion.div
         className={cn(
-          "h-full px-4 py-4 hidden  md:flex md:flex-col bg-neutral-100 dark:bg-neutral-800 w-[300px] shrink-0",
+          "h-full px-4 py-4 hidden md:flex md:flex-col bg-neutral-900 border-r border-neutral-700 w-[260px] shrink-0",
           className
         )}
         animate={{
-          width: animate ? (open ? "300px" : "60px") : "300px",
+          width: animate ? (open ? "260px" : "70px") : "260px",
         }}
-        onMouseEnter={() => setOpen(true)}
-        onMouseLeave={() => setOpen(false)}
+        onMouseEnter={!animate ? undefined : () => setOpen(true)}
+        onMouseLeave={!animate ? undefined : () => setOpen(false)}
         {...props}
       >
         {children}
@@ -114,13 +115,13 @@ export const MobileSidebar = ({
     <>
       <div
         className={cn(
-          "h-10 px-4 py-4 flex flex-row md:hidden  items-center justify-between bg-neutral-100 dark:bg-neutral-800 w-full"
+          "h-10 px-4 py-4 flex flex-row md:hidden items-center justify-between bg-neutral-900 border-b border-neutral-700 w-full"
         )}
         {...props}
       >
         <div className="flex justify-end z-20 w-full">
           <IconMenu2
-            className="text-neutral-800 dark:text-neutral-200"
+            className="text-neutral-200"
             onClick={() => setOpen(!open)}
           />
         </div>
@@ -135,12 +136,12 @@ export const MobileSidebar = ({
                 ease: "easeInOut",
               }}
               className={cn(
-                "fixed h-full w-full inset-0 bg-white dark:bg-neutral-900 p-10 z-[100] flex flex-col justify-between",
+                "fixed h-full w-full inset-0 bg-neutral-900 p-10 z-[100] flex flex-col justify-between border-r border-neutral-700",
                 className
               )}
             >
               <div
-                className="absolute right-10 top-10 z-50 text-neutral-800 dark:text-neutral-200"
+                className="absolute right-10 top-10 z-50 text-neutral-200"
                 onClick={() => setOpen(!open)}
               >
                 <IconX />
@@ -157,32 +158,83 @@ export const MobileSidebar = ({
 export const SidebarLink = ({
   link,
   className,
+  active,
   ...props
 }: {
   link: Links;
   className?: string;
+  active?: boolean;
   }) => {
   const { open, animate } = useSidebar();
   return (
     <a
       href={link.href}
       className={cn(
-        "flex items-center justify-start gap-2  group/sidebar py-2",
+        "flex items-center justify-start gap-3 group/sidebar py-2 px-3 rounded-md",
+        active ? "bg-primary text-primary-foreground hover:bg-primary/90" : "hover:bg-neutral-700/50 text-neutral-400 hover:text-neutral-100",
         className
       )}
       {...props}
     >
-      {link.icon}
-
+      {React.cloneElement(link.icon as React.ReactElement, {
+        className: cn(
+          (link.icon as React.ReactElement).props.className,
+          "h-5 w-5 shrink-0",
+          active ? "text-primary-foreground" : "text-neutral-400 group-hover/sidebar:text-neutral-100"
+        )
+      })}
       <motion.span
         animate={{
           display: animate ? (open ? "inline-block" : "none") : "inline-block",
           opacity: animate ? (open ? 1 : 0) : 1,
         }}
-        className="text-neutral-700 dark:text-neutral-200 text-sm group-hover/sidebar:translate-x-1 transition duration-150 whitespace-pre inline-block !p-0 !m-0"
+        className="text-sm group-hover/sidebar:translate-x-1 transition duration-150 whitespace-pre inline-block !p-0 !m-0"
       >
         {link.label}
       </motion.span>
     </a>
+  );
+};
+
+export const TriangleLogo = ({ size = 24, className }: { size?: number, className?: string }) => {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={cn("text-white", className)}
+    >
+      <path d="M12 2L2 22H22L12 2Z" fill="currentColor" />
+    </svg>
+  );
+};
+
+
+export const Logo = () => {
+  return (
+    <div
+      className="relative z-20 flex items-center space-x-2 py-1 text-sm font-normal text-white"
+    >
+      <TriangleLogo />
+      <motion.span
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className="font-medium whitespace-pre text-white text-lg"
+      >
+        Spotlight
+      </motion.span>
+    </div>
+  );
+};
+
+export const LogoIcon = () => {
+  return (
+    <div
+      className="relative z-20 flex items-center justify-center py-1 text-sm font-normal text-white"
+    >
+      <TriangleLogo />
+    </div>
   );
 };
