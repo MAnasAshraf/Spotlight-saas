@@ -4,12 +4,13 @@ import { cn } from "@/lib/utils";
 import React, { useState, createContext, useContext } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { IconMenu2, IconX } from "@tabler/icons-react";
+import { Layers } from "lucide-react";
 
 interface Links {
   label: string;
   href: string;
   icon: React.JSX.Element | React.ReactNode;
-  active?: boolean; // Added active to the Links interface
+  active?: boolean; 
 }
 
 interface SidebarContextProps {
@@ -214,21 +215,6 @@ export const SidebarLink = ({
   );
 };
 
-export const TriangleLogo = ({ size = 24, className }: { size?: number, className?: string }) => {
-  return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className={cn("text-white", className)}
-    >
-      <path d="M12 2L2 22H22L12 2Z" fill="currentColor" />
-    </svg>
-  );
-};
-
 
 export const Logo = () => {
   const { open } = useSidebar();
@@ -239,7 +225,7 @@ export const Logo = () => {
          open ? "space-x-2" : "justify-center"
       )}
     >
-      <TriangleLogo className="text-sidebar-foreground" />
+      <Layers size={24} className="text-sidebar-foreground" />
       <AnimatePresence>
         {open && (
           <motion.span
@@ -260,8 +246,7 @@ export const Logo = () => {
 export const LogoIcon = () => {
   return (
      <div className="relative z-20 flex items-center justify-center py-1 text-sm font-normal text-sidebar-foreground">
-      <TriangleLogo className="text-sidebar-foreground"/>
+      <Layers size={24} className="text-sidebar-foreground"/>
     </div>
   );
 };
-
