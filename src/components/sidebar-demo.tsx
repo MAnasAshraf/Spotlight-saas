@@ -48,7 +48,7 @@ export default function SidebarDemo() {
   return (
     <div
       className={cn(
-        "flex w-full flex-1 flex-col overflow-hidden bg-background md:flex-row", // Use bg-background from theme
+        "flex w-full flex-1 flex-col overflow-hidden bg-background md:flex-row",
         "h-screen"
       )}
     >
@@ -62,7 +62,7 @@ export default function SidebarDemo() {
                   key={idx} 
                   link={link} 
                   active={activeLink === link.label} 
-                  onClick={() => setActiveLink(link.label)} // Basic click handler to set active state
+                  onClick={() => setActiveLink(link.label)}
                 />
               ))}
             </div>
@@ -103,7 +103,7 @@ const DashboardHeader = () => {
 
 const ConversionFeature = () => {
   const features = [
-    { text: "Create a webinar", icon: <CheckCircle size={20} className="text-green-500" /> }, // Keeping green for positive check
+    { text: "Create a webinar", icon: <CheckCircle size={20} className="text-green-500" /> },
     { text: "Get leads", icon: <CheckCircle size={20} className="text-green-500" /> },
     { text: "Conversion status", icon: <CheckCircle size={20} className="text-green-500" /> },
   ];
@@ -128,7 +128,7 @@ const ActionCard = ({ icon, title, description, href }: { icon: React.ReactNode,
   return (
     <Card className="bg-card border-border text-foreground flex flex-col">
       <CardHeader className="pb-3">
-        <div className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center mb-3 text-accent"> {/* Use accent for icon bg */}
+        <div className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center mb-3 text-accent-foreground"> {/* Changed text-accent to text-accent-foreground */}
           {icon}
         </div>
         <CardTitle className="text-lg font-medium">{title}</CardTitle>
@@ -241,3 +241,4 @@ const Dashboard = () => {
     </div>
   );
 };
+
