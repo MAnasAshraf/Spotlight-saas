@@ -82,8 +82,25 @@ export function CreateWebinarDialog({ trigger }: { trigger: React.ReactNode }) {
 
   function onSubmit(data: BasicInfoFormData) {
     console.log('Form Data Submitted:', data);
-    setIsOpen(false);
-    form.reset();
+    // For demonstration: Mark step 1 as complete and move to step 2
+    // In a real scenario, you'd handle step progression more robustly
+    if (currentStep === 1) {
+      setSteps(prevSteps =>
+        prevSteps.map(s =>
+          s.id === 1 ? { ...s, status: 'complete' } :
+          s.id === 2 ? { ...s, status: 'current' } : s
+        )
+      );
+      setCurrentStep(2);
+      // Note: form.reset() would clear data if called here.
+      // For multi-step forms, data is often accumulated or submitted at the end.
+    } else {
+      // Handle submission for other steps or final submission
+      setIsOpen(false);
+      form.reset();
+      setSteps(initialSteps); // Reset steps
+      setCurrentStep(1);
+    }
   }
 
   return (
@@ -92,6 +109,8 @@ export function CreateWebinarDialog({ trigger }: { trigger: React.ReactNode }) {
         setIsOpen(open);
         if (!open) {
           form.reset();
+          setSteps(initialSteps); // Reset steps when dialog closes
+          setCurrentStep(1);
         }
       }}>
         <DialogTrigger asChild>{trigger}</DialogTrigger>
@@ -116,7 +135,11 @@ export function CreateWebinarDialog({ trigger }: { trigger: React.ReactNode }) {
                             )}
                           >
                             {step.status === 'complete' ? (
-                              <Check className="h-4 w-4 text-foreground" />
+                              step.id === 1 ? (
+                                <span className="text-xs text-foreground">{step.id}</span>
+                              ) : (
+                                <Check className="h-4 w-4 text-foreground" />
+                              )
                             ) : (
                               <span
                                 className={cn(
@@ -335,14 +358,66 @@ export function CreateWebinarDialog({ trigger }: { trigger: React.ReactNode }) {
                          <DialogClose asChild>
                           <Button type="button" variant="ghost">Cancel</Button>
                          </DialogClose>
-                        <Button type="submit">Next</Button>
+                        <Button type="submit">{currentStep === steps.length ? 'Finish' : 'Next'}</Button>
                       </DialogFooter>
                     </form>
                   </Form>
                 </>
               )}
-              {currentStep === 2 && <div>CTA Step Content</div>}
-              {currentStep === 3 && <div>Additional Information Step Content</div>}
+              {currentStep === 2 && 
+                <div className="flex flex-col h-full">
+                    <DialogHeader className="mb-6 text-left px-0 pt-0">
+                        <DialogTitle className="text-xl">{steps.find(s=>s.id===2)?.name}</DialogTitle>
+                        <p className="text-sm text-muted-foreground">
+                        {steps.find(s=>s.id===2)?.description}
+                        </p>
+                    </DialogHeader>
+                    <div className="flex-grow flex items-center justify-center">
+                        <p className="text-muted-foreground">CTA Step Content - Coming Soon!</p>
+                    </div>
+                    <DialogFooter className="pt-6">
+                        <Button type="button" variant="ghost" onClick={() => {
+                            setSteps(prevSteps => prevSteps.map(s => s.id === 2 ? {...s, status: 'upcoming'} : s.id === 1 ? {...s, status: 'current'} : s));
+                            setCurrentStep(1);
+                        }}>Back</Button>
+                        <Button type="button" onClick={() => { /* Logic for next step or finish */
+                             setSteps(prevSteps =>
+                                prevSteps.map(s =>
+                                s.id === 2 ? { ...s, status: 'complete' } :
+                                s.id === 3 ? { ...s, status: 'current' } : s
+                                )
+                            );
+                            setCurrentStep(3);
+                        }}>Next</Button>
+                    </DialogFooter>
+                </div>
+              }
+              {currentStep === 3 && 
+                <div className="flex flex-col h-full">
+                    <DialogHeader className="mb-6 text-left px-0 pt-0">
+                        <DialogTitle className="text-xl">{steps.find(s=>s.id===3)?.name}</DialogTitle>
+                        <p className="text-sm text-muted-foreground">
+                            {steps.find(s=>s.id===3)?.description}
+                        </p>
+                    </DialogHeader>
+                    <div className="flex-grow flex items-center justify-center">
+                        <p className="text-muted-foreground">Additional Information Step Content - Coming Soon!</p>
+                    </div>
+                    <DialogFooter className="pt-6">
+                        <Button type="button" variant="ghost" onClick={() => {
+                             setSteps(prevSteps => prevSteps.map(s => s.id === 3 ? {...s, status: 'upcoming'} : s.id === 2 ? {...s, status: 'current'} : s));
+                            setCurrentStep(2);
+                        }}>Back</Button>
+                        <Button type="button" onClick={() => { 
+                            console.log("All steps complete!");
+                            setIsOpen(false); 
+                            form.reset(); 
+                            setSteps(initialSteps); 
+                            setCurrentStep(1);
+                        }}>Finish</Button>
+                    </DialogFooter>
+                </div>
+              }
             </div>
           </div>
         </DialogContent>
@@ -350,3 +425,4 @@ export function CreateWebinarDialog({ trigger }: { trigger: React.ReactNode }) {
     </>
   );
 }
+
