@@ -3,7 +3,7 @@
 
 import React, { useState } from 'react';
 import { usePathname } from 'next/navigation';
-import { UserButton } from "@clerk/nextjs";
+// Removed UserButton import
 
 import { Sidebar, SidebarBody, SidebarLink, Logo, LogoIcon } from "@/components/ui/sidebar";
 import {
@@ -98,9 +98,7 @@ export default function DashboardLayout({
         </SidebarBody>
       </Sidebar>
       <div className="flex flex-1 flex-col overflow-y-auto bg-background text-foreground">
-        <header className="flex h-16 shrink-0 items-center justify-end border-b border-border px-6 bg-card sticky top-0 z-10">
-          <UserButton afterSignOutUrl="/" appearance={{ elements: { avatarBox: "w-8 h-8" } }} />
-        </header>
+        {/* Removed header that contained UserButton */}
         <div className="flex-1 overflow-y-auto">
           {children}
         </div>
