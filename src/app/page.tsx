@@ -4,8 +4,7 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { ArrowRight, LogIn, UserPlus } from 'lucide-react';
-import { SignedIn, SignedOut, SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
+import { ArrowRight } from 'lucide-react';
 
 export default function HomePage() {
   const avatars = [
@@ -18,11 +17,6 @@ export default function HomePage() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-background text-foreground p-6 text-center">
-      <div className="absolute top-6 right-6">
-        <SignedIn>
-          <UserButton afterSignOutUrl="/" />
-        </SignedIn>
-      </div>
       <div className="max-w-3xl">
         <h1 className="text-5xl md:text-7xl font-bold mb-6 text-foreground">
           Host Engaging Webinars. <span className="text-foreground">Skyrocket Your Sales.</span>
@@ -31,30 +25,13 @@ export default function HomePage() {
           Access an ever-growing collection of premium, meticulously crafted templates and component packs. Save time and focus on what matters—building standout websites that captivate your audience.
         </p>
         
-        <SignedIn>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
-            <Link href="/dashboard">
-              <Button size="lg" variant="secondary" className="bg-primary-foreground text-primary hover:bg-primary-foreground/90 w-full sm:w-auto">
-                Go to Dashboard
-              </Button>
-            </Link>
-          </div>
-        </SignedIn>
-
-        <SignedOut>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
-            <SignUpButton mode="modal">
-              <Button size="lg" variant="secondary" className="bg-primary-foreground text-primary hover:bg-primary-foreground/90 w-full sm:w-auto">
-                 <UserPlus size={20} className="mr-2" /> Sign Up
-              </Button>
-            </SignUpButton>
-            <SignInButton mode="modal">
-              <Button size="lg" variant="default" className="bg-secondary hover:bg-secondary/80 text-secondary-foreground w-full sm:w-auto">
-                <LogIn size={20} className="mr-2" /> Sign In 
-              </Button>
-            </SignInButton>
-          </div>
-        </SignedOut>
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
+          <Link href="/dashboard">
+            <Button size="lg" variant="secondary" className="bg-primary-foreground text-primary hover:bg-primary-foreground/90 w-full sm:w-auto">
+              Go to Dashboard <ArrowRight size={20} className="ml-2" />
+            </Button>
+          </Link>
+        </div>
 
         <div className="mb-6">
           <p className="text-sm text-muted-foreground">
