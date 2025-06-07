@@ -114,7 +114,7 @@ const SuccessScreen = ({ webinarLink, onCreateAnother, onPreview }: { webinarLin
   };
 
   return (
-    <div className="flex flex-col items-center justify-center p-8 text-center space-y-6 min-h-[400px]">
+    <div className="flex flex-col items-center justify-center p-8 text-center space-y-6 min-h-[480px]">
       <CheckCircle2 className="h-16 w-16 text-green-500" />
       <h2 className="text-2xl font-semibold text-foreground">Your webinar has been created</h2>
       <p className="text-muted-foreground max-w-xs">
@@ -126,11 +126,11 @@ const SuccessScreen = ({ webinarLink, onCreateAnother, onPreview }: { webinarLin
           <Copy className="h-4 w-4" />
         </Button>
       </div>
-      <div className="flex flex-col sm:flex-row gap-3 w-full max-w-xs pt-4">
-        <Button type="button" variant="outline" className="w-full" onClick={onPreview}>
+      <div className="flex flex-col sm:flex-row gap-3 w-full max-w-sm pt-4">
+        <Button type="button" variant="outline" className="w-full sm:flex-1" onClick={onPreview}>
           <ExternalLink className="mr-2 h-4 w-4" /> Preview Webinar
         </Button>
-        <Button type="button" variant="default" className="w-full" onClick={onCreateAnother}>
+        <Button type="button" variant="default" className="w-full sm:flex-1" onClick={onCreateAnother}>
           <RefreshCw className="mr-2 h-4 w-4" /> Create Another Webinar
         </Button>
       </div>
@@ -222,7 +222,6 @@ export function CreateWebinarDialog({ trigger }: { trigger: React.ReactNode }) {
         return;
       }
     }
-
     // This will call onSubmit if all fields are valid
     form.handleSubmit(onSubmit)();
   };
@@ -273,8 +272,8 @@ export function CreateWebinarDialog({ trigger }: { trigger: React.ReactNode }) {
             />
           ) : (
             <div className="flex min-h-[550px]">
-              <div className="w-1/3 bg-muted/30 p-8 border-r border-border flex flex-col">
-                <nav aria-label="Progress" className="mt-8">
+              <div className="w-1/3 bg-muted/30 p-8 border-r border-border flex flex-col justify-center">
+                <nav aria-label="Progress">
                   <ol role="list" className="space-y-6">
                     {steps.map((step, stepIdx) => (
                       <li key={step.name} className="relative">
@@ -332,7 +331,7 @@ export function CreateWebinarDialog({ trigger }: { trigger: React.ReactNode }) {
                 </DialogHeader>
 
                 <Form {...form}>
-                  <form className="flex-grow flex flex-col"> {/* Removed onSubmit={form.handleSubmit(onSubmit)} here as it's handled by buttons */}
+                  <form className="flex-grow flex flex-col">
                     <div className="space-y-4 px-2 overflow-y-auto flex-1 min-h-0 pb-4">
                       {currentStep === 1 && (
                         <>
