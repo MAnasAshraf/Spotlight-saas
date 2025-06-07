@@ -3,6 +3,7 @@
 
 import React, { useState } from 'react';
 import { usePathname } from 'next/navigation';
+import { UserButton } from "@clerk/nextjs";
 
 import { Sidebar, SidebarBody, SidebarLink, Logo, LogoIcon } from "@/components/ui/sidebar";
 import {
@@ -55,7 +56,6 @@ export default function DashboardLayout({
     if (pathname.startsWith("/dashboard/settings")) return "Settings";
     if (pathname === '/dashboard') return "Home";
     
-    // Fallback for deeply nested routes, try to match parent
     const parentLink = dashboardLinks.find(link => pathname.startsWith(link.href) && link.href !== '/dashboard');
     if (parentLink) return parentLink.label;
 
@@ -98,7 +98,12 @@ export default function DashboardLayout({
         </SidebarBody>
       </Sidebar>
       <div className="flex flex-1 flex-col overflow-y-auto bg-background text-foreground">
-        {children}
+        <header className="flex h-16 shrink-0 items-center justify-end border-b border-border px-6 bg-card sticky top-0 z-10">
+          <UserButton afterSignOutUrl="/" appearance={{ elements: { avatarBox: "w-8 h-8" } }} />
+        </header>
+        <div className="flex-1 overflow-y-auto">
+          {children}
+        </div>
       </div>
     </div>
   );
