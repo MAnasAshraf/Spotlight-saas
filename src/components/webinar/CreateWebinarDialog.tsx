@@ -160,7 +160,7 @@ export function CreateWebinarDialog({ trigger }: { trigger: React.ReactNode }) {
                   </p>
                 </DialogHeader>
                 <Form {...form}>
-                  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 flex-grow flex flex-col">
+                  <form onSubmit={form.handleSubmit(onSubmit)} className="flex-grow flex flex-col">
                     <div className="space-y-4 overflow-y-auto px-2 flex-1 min-h-0">
                       <FormField
                         control={form.control}
@@ -192,118 +192,120 @@ export function CreateWebinarDialog({ trigger }: { trigger: React.ReactNode }) {
                           </FormItem>
                         )}
                       />
-                      <FormField
-                        control={form.control}
-                        name="webinarDate"
-                        render={({ field }) => (
-                          <FormItem className="flex flex-col">
-                            <FormLabel>Webinar Date *</FormLabel>
-                            <Popover>
-                              <PopoverTrigger asChild>
-                                <FormControl>
-                                  <Button
-                                    variant="outline"
-                                    className={cn(
-                                      'w-full pl-3 text-left font-normal',
-                                      !field.value && 'text-muted-foreground'
-                                    )}
-                                  >
-                                    {field.value ? (
-                                      format(field.value, 'PPP')
-                                    ) : (
-                                      <span>Select date</span>
-                                    )}
-                                    <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                                  </Button>
-                                </FormControl>
-                              </PopoverTrigger>
-                              <PopoverContent className="w-auto p-0" align="start">
-                                <Calendar
-                                  mode="single"
-                                  selected={field.value}
-                                  onSelect={field.onChange}
-                                  disabled={(date) => date < new Date(new Date().setHours(0,0,0,0))} // Disable past dates
-                                  initialFocus
-                                />
-                              </PopoverContent>
-                            </Popover>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
 
-                      <div className="space-y-2 pt-2">
-                        <Label className="flex items-center text-sm font-medium">
-                          Webinar Time *
-                          <Clock size={16} className="ml-1.5 opacity-70" />
-                        </Label>
-                        <div className="grid grid-cols-3 gap-4">
-                          <FormField
-                            control={form.control}
-                            name="webinarHour"
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormLabel className="text-xs">Hour</FormLabel>
-                                <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                  <FormControl>
-                                    <SelectTrigger>
-                                      <SelectValue placeholder="HH" />
-                                    </SelectTrigger>
-                                  </FormControl>
-                                  <SelectContent>
-                                    {hours.map(hour => (
-                                      <SelectItem key={hour} value={hour}>{hour}</SelectItem>
-                                    ))}
-                                  </SelectContent>
-                                </Select>
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-                          <FormField
-                            control={form.control}
-                            name="webinarMinute"
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormLabel className="text-xs">Minute</FormLabel>
-                                <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                  <FormControl>
-                                    <SelectTrigger>
-                                      <SelectValue placeholder="MM" />
-                                    </SelectTrigger>
-                                  </FormControl>
-                                  <SelectContent>
-                                    {minutes.map(minute => (
-                                      <SelectItem key={minute} value={minute}>{minute}</SelectItem>
-                                    ))}
-                                  </SelectContent>
-                                </Select>
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-                          <FormField
-                            control={form.control}
-                            name="webinarPeriod"
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormLabel className="text-xs">AM/PM</FormLabel>
-                                <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                  <FormControl>
-                                    <SelectTrigger>
-                                      <SelectValue placeholder="AM/PM" />
-                                    </SelectTrigger>
-                                  </FormControl>
-                                  <SelectContent>
-                                    <SelectItem value="AM">AM</SelectItem>
-                                    <SelectItem value="PM">PM</SelectItem>
-                                  </SelectContent>
-                                </Select>
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
+                      <div className="grid grid-cols-2 gap-x-4 items-start pt-2">
+                        {/* Webinar Time Section */}
+                        <div className="space-y-2">
+                          <FormLabel className="flex items-center text-sm font-medium mb-2">
+                            Webinar Time *
+                            <Clock size={16} className="ml-1.5 opacity-70" />
+                          </FormLabel>
+                          <div className="grid grid-cols-3 gap-x-2">
+                            <FormField
+                              control={form.control}
+                              name="webinarHour"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                      <SelectTrigger>
+                                        <SelectValue placeholder="HH" />
+                                      </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                      {hours.map(hour => (
+                                        <SelectItem key={hour} value={hour}>{hour}</SelectItem>
+                                      ))}
+                                    </SelectContent>
+                                  </Select>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                            <FormField
+                              control={form.control}
+                              name="webinarMinute"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                      <SelectTrigger>
+                                        <SelectValue placeholder="MM" />
+                                      </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                      {minutes.map(minute => (
+                                        <SelectItem key={minute} value={minute}>{minute}</SelectItem>
+                                      ))}
+                                    </SelectContent>
+                                  </Select>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                            <FormField
+                              control={form.control}
+                              name="webinarPeriod"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                      <SelectTrigger>
+                                        <SelectValue placeholder="AM/PM" />
+                                      </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                      <SelectItem value="AM">AM</SelectItem>
+                                      <SelectItem value="PM">PM</SelectItem>
+                                    </SelectContent>
+                                  </Select>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                          </div>
                         </div>
+
+                        {/* Webinar Date Section */}
+                        <FormField
+                          control={form.control}
+                          name="webinarDate"
+                          render={({ field }) => (
+                            <FormItem className="flex flex-col">
+                              <FormLabel>Webinar Date *</FormLabel>
+                              <Popover>
+                                <PopoverTrigger asChild>
+                                  <FormControl>
+                                    <Button
+                                      variant="outline"
+                                      className={cn(
+                                        'w-full pl-3 text-left font-normal',
+                                        !field.value && 'text-muted-foreground'
+                                      )}
+                                    >
+                                      {field.value ? (
+                                        format(field.value, 'PPP')
+                                      ) : (
+                                        <span>Select date</span>
+                                      )}
+                                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                    </Button>
+                                  </FormControl>
+                                </PopoverTrigger>
+                                <PopoverContent className="w-auto p-0" align="start">
+                                  <Calendar
+                                    mode="single"
+                                    selected={field.value}
+                                    onSelect={field.onChange}
+                                    disabled={(date) => date < new Date(new Date().setHours(0,0,0,0))} // Disable past dates
+                                    initialFocus
+                                  />
+                                </PopoverContent>
+                              </Popover>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
                       </div>
                       
                       <FormField
