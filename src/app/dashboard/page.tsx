@@ -8,8 +8,9 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import { Sparkles, Zap, UploadCloud, RadioTower, ChevronRight, Check } from 'lucide-react';
+import { CreateWebinarDialog } from '@/components/webinar/CreateWebinarDialog';
 
-// Components specific to this page, formerly in sidebar-demo.tsx
+// Components specific to this page
 
 const DashboardHeader = () => {
   return (
@@ -19,11 +20,13 @@ const DashboardHeader = () => {
         <Button variant="ghost" size="icon" className="iconBackground">
           <Zap size={20} className="text-foreground" />
         </Button>
-        <Link href="/dashboard/webinars/create">
-          <Button className="bg-primary hover:bg-primary/90 text-primary-foreground">
-            <Sparkles size={18} className="mr-2" /> Create a Webinar
-          </Button>
-        </Link>
+        <CreateWebinarDialog 
+          trigger={
+            <Button className="bg-primary hover:bg-primary/90 text-primary-foreground">
+              <Sparkles size={18} className="mr-2" /> Create a Webinar
+            </Button>
+          }
+        />
       </div>
     </header>
   );
@@ -37,12 +40,23 @@ interface StepItem {
 }
 
 const stepperData: StepItem[] = [
-  { id: 1, label: "Create a webinar", href: "/dashboard/webinars/create", isCompleted: true },
+  { id: 1, label: "Create a webinar", href: "#", isCompleted: true }, // Updated href to # for now
   { id: 2, label: "Get leads for your webinar", href: "#get-leads", isCompleted: false },
   { id: 3, label: "Track conversion status", href: "#track-conversion", isCompleted: false },
 ];
 
 const VerticalStepper = ({ steps }: { steps: StepItem[] }) => {
+  // Use a regular div if it's just meant to open the dialog, or pass setIsOpen to CreateWebinarDialog if needed
+  const handleStepClick = (step: StepItem, e: React.MouseEvent) => {
+    if (step.label === "Create a webinar") {
+      // This click will be handled by DialogTrigger if the step itself is the trigger
+      // Or, if not, we might need a shared state to open the dialog programmatically.
+      // For now, assuming the main "Create a Webinar" button is the primary trigger.
+    } else {
+      // router.push(step.href) // If using Next router for other links
+    }
+  };
+
   return (
     <div className="p-6">
       <h2 className="text-2xl font-semibold text-foreground mb-1">
@@ -53,9 +67,10 @@ const VerticalStepper = ({ steps }: { steps: StepItem[] }) => {
       </p>
       <div className="space-y-3">
         {steps.map((step) => (
-          <Link
+          <div // Changed Link to div for items that might trigger dialog or are not direct nav links yet
             key={step.id}
-            href={step.href}
+            // href={step.href} // Conditional href or onClick logic needed
+            onClick={(e) => handleStepClick(step, e)}
             className="flex items-center justify-between p-4 rounded-lg bg-card border border-border hover:bg-muted transition-colors cursor-pointer group"
           >
             <div className="flex items-center gap-4">
@@ -76,16 +91,16 @@ const VerticalStepper = ({ steps }: { steps: StepItem[] }) => {
               <span className="text-foreground text-sm group-hover:text-primary">{step.label}</span>
             </div>
             <ChevronRight size={20} className="text-muted-foreground group-hover:text-primary" />
-          </Link>
+          </div>
         ))}
       </div>
     </div>
   );
 };
 
-const ActionCard = ({ icon, title, description, href, actionText = "View" }: { icon: React.ReactNode, title: string, description: string, href?: string, actionText?: string }) => {
-  return (
-    <Card className="bg-card border-border text-foreground flex flex-col">
+const ActionCard = ({ icon, title, description, href, actionText = "View", isDialogTrigger = false }: { icon: React.ReactNode, title: string, description: string, href?: string, actionText?: string, isDialogTrigger?: boolean }) => {
+  const content = (
+    <Card className="bg-card border-border text-foreground flex flex-col h-full">
       <CardHeader className="pb-3">
         <div className="w-10 h-10 rounded-lg iconBackground flex items-center justify-center mb-3">
           {React.cloneElement(icon as React.ReactElement, { className: "text-foreground" })}
@@ -95,15 +110,28 @@ const ActionCard = ({ icon, title, description, href, actionText = "View" }: { i
       <CardContent className="flex-grow">
         <CardDescription className="text-muted-foreground text-sm">{description}</CardDescription>
       </CardContent>
-      {href && (
+      {(href || isDialogTrigger) && (
         <CardFooter>
-          <Link href={href} className="text-sm text-primary hover:text-primary/80 flex items-center">
-            {actionText} <ChevronRight size={16} className="ml-1" />
-          </Link>
+          {isDialogTrigger ? (
+             <span className="text-sm text-primary hover:text-primary/80 flex items-center cursor-pointer">
+              {actionText} <ChevronRight size={16} className="ml-1" />
+            </span>
+          ) : href ? (
+            <Link href={href} className="text-sm text-primary hover:text-primary/80 flex items-center">
+              {actionText} <ChevronRight size={16} className="ml-1" />
+            </Link>
+          ) : null}
         </CardFooter>
       )}
     </Card>
   );
+
+  if (isDialogTrigger) {
+    return (
+      <CreateWebinarDialog trigger={content} />
+    )
+  }
+  return content;
 };
 
 const CustomerListItem = ({ name, email, tags }: { name: string, email: string, tags: string[] }) => {
@@ -148,15 +176,16 @@ export default function DashboardHomePage() {
             icon={<UploadCloud size={22} />}
             title="Browse or drag a pre-recorded webinar file"
             description="Easily upload your existing webinar content to get started."
-            href="/dashboard/webinars/create"
             actionText="Upload Webinar"
+            isDialogTrigger // This card will now open the dialog
           />
           <ActionCard 
             icon={<RadioTower size={22} />} 
             title="Go live and interact with your audience in real-time"
             description="Engage your viewers with live sessions and Q&A."
-            href="/dashboard/webinars/create?live=true"
+            // href="/dashboard/webinars/create?live=true" // Potentially also a dialog trigger or different flow
             actionText="Go Live"
+            isDialogTrigger // This card will now open the dialog
           />
         </div>
 

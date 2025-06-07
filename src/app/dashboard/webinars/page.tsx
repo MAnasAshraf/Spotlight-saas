@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { PlusCircle, Video } from 'lucide-react';
 import Link from 'next/link';
+import { CreateWebinarDialog } from '@/components/webinar/CreateWebinarDialog';
 
 // Placeholder data for webinars - in a real app, this would come from an API
 const webinars = [
@@ -18,12 +19,14 @@ export default function WebinarsPage() {
     <div className="flex flex-1 flex-col bg-background text-foreground">
       <header className="flex items-center justify-between p-6 border-b border-border">
         <h1 className="text-2xl font-semibold text-foreground">My Webinars</h1>
-        <Link href="/dashboard/webinars/create">
-          <Button>
-            <PlusCircle size={20} className="mr-2" />
-            Create New Webinar
-          </Button>
-        </Link>
+        <CreateWebinarDialog 
+          trigger={
+            <Button>
+              <PlusCircle size={20} className="mr-2" />
+              Create New Webinar
+            </Button>
+          }
+        />
       </header>
       <main className="flex-1 p-6 space-y-6">
         {webinars.length === 0 ? (
@@ -33,9 +36,11 @@ export default function WebinarsPage() {
             <p className="text-muted-foreground mb-6">
               Get started by creating your first live or pre-recorded webinar.
             </p>
-            <Link href="/dashboard/webinars/create">
-              <Button size="lg">Create Your First Webinar</Button>
-            </Link>
+            <CreateWebinarDialog
+              trigger={
+                <Button size="lg">Create Your First Webinar</Button>
+              }
+            />
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -60,5 +65,3 @@ export default function WebinarsPage() {
     </div>
   );
 }
-
-    
