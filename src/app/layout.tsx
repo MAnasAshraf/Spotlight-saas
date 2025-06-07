@@ -15,10 +15,11 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // These are read on the server side during rendering or at build time.
   const publishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
   const secretKey = process.env.CLERK_SECRET_KEY;
 
-  // Check if the keys are missing or empty
+  // Check if the keys are missing or effectively empty
   if (!publishableKey || publishableKey.trim() === '' || !secretKey || secretKey.trim() === '') {
     const keyInstructions = `
 NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=${publishableKey || 'your_publishable_key_here'}
@@ -30,6 +31,7 @@ NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/dashboard
 NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/dashboard
     `;
 
+    // If keys are missing, render a detailed error page
     return (
       <html lang="en" className="dark">
         <head>
@@ -70,14 +72,16 @@ NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/dashboard
     );
   }
 
+  // If keys are present, proceed with ClerkProvider.
+  // ClerkProvider will attempt to read NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY from the environment.
   return (
     <ClerkProvider
       appearance={{
         baseTheme: dark,
-        variables: { colorPrimary: '#6366f1' },
+        variables: { colorPrimary: '#6366f1' }, 
         layout: {
           socialButtonsVariant: 'iconButton',
-          logoImageUrl: '/logo.png',
+          logoImageUrl: '/logo.png', 
         }
       }}
     >
