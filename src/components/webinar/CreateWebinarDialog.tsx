@@ -34,6 +34,7 @@ import { Calendar } from '@/components/ui/calendar';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import { Switch } from "@/components/ui/switch";
 import { CalendarIcon, Clock, Check, UploadCloud, Search } from 'lucide-react';
 
 const webinarCreationSchema = z.object({
@@ -50,6 +51,9 @@ const webinarCreationSchema = z.object({
   ctaType: z.enum(['book_call', 'buy_now'], { required_error: 'CTA Type is required' }),
   ctaProductSearch: z.string().optional(),
   ctaSelectedProduct: z.string().optional(),
+  // Additional Information Fields
+  lockChat: z.boolean().optional().default(false),
+  couponCode: z.boolean().optional().default(false),
 });
 
 type WebinarCreationFormData = z.infer<typeof webinarCreationSchema>;
@@ -82,7 +86,7 @@ const initialSteps: Step[] = [
     name: 'Additional Information',
     description: 'Please fill out information about additional options if necessary',
     status: 'upcoming',
-    fields: [] // Add fields for step 3 later
+    fields: ['lockChat', 'couponCode'] 
   },
 ];
 
@@ -108,6 +112,8 @@ export function CreateWebinarDialog({ trigger }: { trigger: React.ReactNode }) {
       // ctaType: 'buy_now', // Default to one option or leave undefined to force selection
       ctaProductSearch: '',
       ctaSelectedProduct: '',
+      lockChat: false,
+      couponCode: false,
     },
      shouldFocusError: true,
   });
@@ -131,18 +137,16 @@ export function CreateWebinarDialog({ trigger }: { trigger: React.ReactNode }) {
 
   const handleNextStep = async () => {
     const currentStepConfig = steps.find(s => s.id === currentStep);
-    // Ensure fields exist and are not empty before triggering validation
+    
     if (!currentStepConfig || !currentStepConfig.fields || currentStepConfig.fields.length === 0) {
-      // This case is for steps like 'Additional Information' if it has no fields to validate yet.
       proceedToNextStepUI();
       return;
     }
 
-    const isValid = await form.trigger(currentStepConfig.fields); // Validates ONLY current step's fields
+    const isValid = await form.trigger(currentStepConfig.fields); 
     if (isValid) {
       proceedToNextStepUI();
     } else {
-      // Optional: Log errors or provide feedback if step validation fails
       console.log(`Validation failed for step ${currentStep}`, form.formState.errors);
     }
   };
@@ -161,7 +165,6 @@ export function CreateWebinarDialog({ trigger }: { trigger: React.ReactNode }) {
   };
 
   const handleFinish = async () => {
-    // Potentially trigger validation for the last step fields if any
     const lastStepConfig = steps.find(s => s.id === currentStep);
     if (lastStepConfig && lastStepConfig.fields && lastStepConfig.fields.length > 0) {
       const isValidLastStep = await form.trigger(lastStepConfig.fields);
@@ -171,32 +174,22 @@ export function CreateWebinarDialog({ trigger }: { trigger: React.ReactNode }) {
       }
     }
 
-    // After validating the last step, we should also validate the entire form
-    // to ensure all required fields across all steps are now valid.
-    const allFieldsValid = await form.trigger(); // Trigger validation for ALL fields
+    const allFieldsValid = await form.trigger(); 
     if (!allFieldsValid) {
         console.error("Overall form validation failed on Finish.", form.formState.errors);
-        // Potentially find the first step with an error and navigate there, or show a global error.
-        // For now, just preventing submission.
         return;
     }
 
-    console.log("All steps complete! Finalizing webinar creation...", form.getValues());
+    form.handleSubmit(onSubmit)(); // Call the actual submit handler
+  };
+
+  const onSubmit = async (data: WebinarCreationFormData) => {
+    console.log('Form Data Submitted:', data);
+    // Here you would typically send the data to your backend
     setIsOpen(false);
     form.reset();
     setSteps(initialSteps);
     setCurrentStep(1);
-  };
-
-  const onSubmit = async (data: WebinarCreationFormData) => {
-    // This function is intended to be called by form.handleSubmit if a type="submit" button
-    // is used for the FINAL submission. Currently, handleFinish is used with a type="button".
-    console.log('Form Data Submitted (via form.handleSubmit):', data);
-    // If this function were used for the final submission:
-    // setIsOpen(false);
-    // form.reset();
-    // setSteps(initialSteps);
-    // setCurrentStep(1);
   };
 
 
@@ -565,8 +558,51 @@ export function CreateWebinarDialog({ trigger }: { trigger: React.ReactNode }) {
                       </div>
                     )}
                     {currentStep === 3 && (
-                       <div className="flex-grow flex items-center justify-center">
-                        <p className="text-muted-foreground">Additional Information Step Content - Coming Soon!</p>
+                       <div className="space-y-6">
+                        <FormField
+                          control={form.control}
+                          name="lockChat"
+                          render={({ field }) => (
+                            <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                              <div className="space-y-0.5">
+                                <FormLabel className="text-base">
+                                  Lock Chat
+                                </FormLabel>
+                                <FormDescription>
+                                  Turn it on to make chat visible to your users at all time.
+                                </FormDescription>
+                              </div>
+                              <FormControl>
+                                <Switch
+                                  checked={field.value}
+                                  onCheckedChange={field.onChange}
+                                />
+                              </FormControl>
+                            </FormItem>
+                          )}
+                        />
+                        <FormField
+                          control={form.control}
+                          name="couponCode"
+                          render={({ field }) => (
+                            <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                              <div className="space-y-0.5">
+                                <FormLabel className="text-base">
+                                  Coupon Code
+                                </FormLabel>
+                                <FormDescription>
+                                  Turn it on to offer discounts to your viewers.
+                                </FormDescription>
+                              </div>
+                              <FormControl>
+                                <Switch
+                                  checked={field.value}
+                                  onCheckedChange={field.onChange}
+                                />
+                              </FormControl>
+                            </FormItem>
+                          )}
+                        />
                       </div>
                     )}
                   </div>
