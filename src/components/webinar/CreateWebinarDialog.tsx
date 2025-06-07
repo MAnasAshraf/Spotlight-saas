@@ -194,7 +194,48 @@ export function CreateWebinarDialog({ trigger }: { trigger: React.ReactNode }) {
                       />
 
                       <div className="grid grid-cols-2 gap-x-4 items-start pt-2">
-                        {/* Webinar Time Section */}
+                        {/* Webinar Date Section (Now on the left) */}
+                        <FormField
+                          control={form.control}
+                          name="webinarDate"
+                          render={({ field }) => (
+                            <FormItem className="flex flex-col">
+                              <FormLabel>Webinar Date *</FormLabel>
+                              <Popover>
+                                <PopoverTrigger asChild>
+                                  <FormControl>
+                                    <Button
+                                      variant="outline"
+                                      className={cn(
+                                        'w-full pl-3 text-left font-normal',
+                                        !field.value && 'text-muted-foreground'
+                                      )}
+                                    >
+                                      {field.value ? (
+                                        format(field.value, 'PPP')
+                                      ) : (
+                                        <span>Select date</span>
+                                      )}
+                                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                    </Button>
+                                  </FormControl>
+                                </PopoverTrigger>
+                                <PopoverContent className="w-auto p-0" align="start">
+                                  <Calendar
+                                    mode="single"
+                                    selected={field.value}
+                                    onSelect={field.onChange}
+                                    disabled={(date) => date < new Date(new Date().setHours(0,0,0,0))} // Disable past dates
+                                    initialFocus
+                                  />
+                                </PopoverContent>
+                              </Popover>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        
+                        {/* Webinar Time Section (Now on the right) */}
                         <div className="space-y-2">
                           <FormLabel className="flex items-center text-sm font-medium mb-2">
                             Webinar Time *
@@ -265,47 +306,6 @@ export function CreateWebinarDialog({ trigger }: { trigger: React.ReactNode }) {
                             />
                           </div>
                         </div>
-
-                        {/* Webinar Date Section */}
-                        <FormField
-                          control={form.control}
-                          name="webinarDate"
-                          render={({ field }) => (
-                            <FormItem className="flex flex-col">
-                              <FormLabel>Webinar Date *</FormLabel>
-                              <Popover>
-                                <PopoverTrigger asChild>
-                                  <FormControl>
-                                    <Button
-                                      variant="outline"
-                                      className={cn(
-                                        'w-full pl-3 text-left font-normal',
-                                        !field.value && 'text-muted-foreground'
-                                      )}
-                                    >
-                                      {field.value ? (
-                                        format(field.value, 'PPP')
-                                      ) : (
-                                        <span>Select date</span>
-                                      )}
-                                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                                    </Button>
-                                  </FormControl>
-                                </PopoverTrigger>
-                                <PopoverContent className="w-auto p-0" align="start">
-                                  <Calendar
-                                    mode="single"
-                                    selected={field.value}
-                                    onSelect={field.onChange}
-                                    disabled={(date) => date < new Date(new Date().setHours(0,0,0,0))} // Disable past dates
-                                    initialFocus
-                                  />
-                                </PopoverContent>
-                              </Popover>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
                       </div>
                       
                       <FormField
@@ -355,3 +355,5 @@ export function CreateWebinarDialog({ trigger }: { trigger: React.ReactNode }) {
     </Dialog>
   );
 }
+
+    
