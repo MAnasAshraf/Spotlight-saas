@@ -5,12 +5,13 @@ import React, { useState, createContext, useContext } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { IconMenu2, IconX } from "@tabler/icons-react";
 import { Layers } from "lucide-react";
+import Link from 'next/link'; // Added import for next/link
 
 interface Links {
   label: string;
   href: string;
   icon: React.JSX.Element | React.ReactNode;
-  active?: boolean; 
+  active?: boolean;
 }
 
 interface SidebarContextProps {
@@ -170,7 +171,7 @@ export const SidebarLink = ({
 }) => {
   const { open, animate } = useSidebar();
   return (
-    <a
+    <Link
       href={link.href}
       onClick={onClick}
       className={cn(
@@ -183,7 +184,7 @@ export const SidebarLink = ({
         className={cn(
           "p-2 rounded-md flex items-center justify-center transition-colors duration-150 ease-in-out",
           active
-            ? "iconBackground" 
+            ? "iconBackground"
             : "bg-transparent"
         )}
       >
@@ -192,7 +193,7 @@ export const SidebarLink = ({
             (link.icon as React.ReactElement).props.className,
             "h-5 w-5 shrink-0 transition-colors duration-150 ease-in-out",
             active
-              ? "text-foreground" 
+              ? "text-foreground"
               : "text-neutral-400 group-hover/sidebar:text-sidebar-accent-foreground"
           ),
         })}
@@ -205,13 +206,13 @@ export const SidebarLink = ({
         className={cn(
           "text-sm transition-all duration-150 ease-in-out whitespace-pre inline-block !p-0 !m-0",
           active
-            ? "text-foreground font-medium" 
+            ? "text-foreground font-medium"
             : "text-neutral-400 group-hover/sidebar:text-sidebar-accent-foreground"
         )}
       >
         {link.label}
       </motion.span>
-    </a>
+    </Link>
   );
 };
 
@@ -250,4 +251,3 @@ export const LogoIcon = () => {
     </div>
   );
 };
-
