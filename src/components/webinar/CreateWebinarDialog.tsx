@@ -82,7 +82,6 @@ export function CreateWebinarDialog({ trigger }: { trigger: React.ReactNode }) {
 
   function onSubmit(data: BasicInfoFormData) {
     console.log('Form Data Submitted for Step 1:', data);
-    // Mark step 1 as complete and move to step 2
     if (currentStep === 1) {
       setSteps(prevSteps =>
         prevSteps.map(s =>
@@ -92,8 +91,6 @@ export function CreateWebinarDialog({ trigger }: { trigger: React.ReactNode }) {
       );
       setCurrentStep(2);
     }
-    // Note: For multi-step forms, data is often accumulated or submitted at the final step.
-    // This is a simplified progression for demonstration.
   }
 
   const handleNextStep = () => {
@@ -130,7 +127,6 @@ export function CreateWebinarDialog({ trigger }: { trigger: React.ReactNode }) {
   
   const handleFinish = () => {
     console.log("All steps complete! Finalizing webinar creation...");
-    // Here you would typically submit all accumulated form data
     setIsOpen(false); 
     form.reset(); 
     setSteps(initialSteps); 
@@ -144,14 +140,14 @@ export function CreateWebinarDialog({ trigger }: { trigger: React.ReactNode }) {
         setIsOpen(open);
         if (!open) {
           form.reset();
-          setSteps(initialSteps); // Reset steps when dialog closes
+          setSteps(initialSteps); 
           setCurrentStep(1);
         }
       }}>
         <DialogTrigger asChild>{trigger}</DialogTrigger>
         <DialogContent className="sm:max-w-3xl md:max-w-4xl lg:max-w-5xl p-0 overflow-hidden">
           <div className="flex min-h-[500px]">
-            <div className="w-1/3 bg-muted/30 p-8 border-r border-border flex flex-col">
+            <div className="w-1/3 bg-muted/30 p-8 border-r border-border flex flex-col justify-center">
               <nav aria-label="Progress" className="mt-8">
                 <ol role="list" className="space-y-6">
                   {steps.map((step, stepIdx) => (
@@ -361,7 +357,7 @@ export function CreateWebinarDialog({ trigger }: { trigger: React.ReactNode }) {
                           control={form.control}
                           name="preRecordedVideo"
                           render={({ field }) => (
-                            <FormItem className="pt-2">
+                            <FormItem className="pt-2 grid items-center gap-1.5">
                               <FormLabel>Pre-recorded Video (Optional)</FormLabel>
                               <FormControl>
                                 <Input
