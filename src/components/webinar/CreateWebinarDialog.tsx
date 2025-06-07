@@ -251,10 +251,10 @@ export function CreateWebinarDialog({ trigger }: { trigger: React.ReactNode }) {
       }}>
         <DialogTrigger asChild>{trigger}</DialogTrigger>
         <DialogContent className={cn(
-          "p-0", // Default p-0 for multi-step view. SuccessScreen handles its own padding.
+          "p-0", 
           isSuccessScreenVisible 
-            ? "sm:max-w-lg glowing-border-modal" // Apply glowing border and ensure overflow is visible via class
-            : "sm:max-w-3xl md:max-w-4xl lg:max-w-5xl overflow-hidden" // Standard view
+            ? "sm:max-w-lg" 
+            : "sm:max-w-3xl md:max-w-4xl lg:max-w-5xl overflow-hidden" 
         )}>
           {isSuccessScreenVisible ? (
             <SuccessScreen

@@ -202,39 +202,4 @@
     padding: 8px;
   }
 }
-
-/* Styles for the glowing border on the success modal */
-.glowing-border-modal {
-  position: relative;
-  border: none !important; /* Remove ShadCN's default border from DialogContent */
-  overflow: visible !important; /* Allow pseudo-element glow to be visible */
-}
-
-.glowing-border-modal::before {
-  content: "";
-  position: absolute;
-  inset: -3px; /* How far the glow extends / effective border thickness */
-  /* DialogContent has sm:rounded-lg (var(--radius)). Add inset for correct outer radius. */
-  border-radius: calc(var(--radius) + 3px); 
-  background: conic-gradient(
-    from 180deg at 50% 50%,
-    #4F46E599 0deg,  /* Deep Indigo (~hsl(243, 75%, 58%)) with alpha */
-    #2DD4BF99 120deg, /* Teal (~hsl(170, 65%, 52%)) with alpha */
-    #A855F799 240deg, /* Purple (~hsl(262, 90%, 65%)) with alpha */
-    #4F46E599 360deg
-  );
-  filter: blur(18px); /* Adjust blur for the neon glow effect */
-  z-index: -1; /* Place it behind the DialogContent's own background */
-  animation: spin-glow-animation 4s linear infinite;
-  opacity: 0.9; /* Overall opacity of the glowing effect */
-}
-
-@keyframes spin-glow-animation {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
     
