@@ -20,6 +20,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import { UserButton } from "@clerk/nextjs";
 
 export default function SidebarDemo() {
   const [activeLink, setActiveLink] = useState("Home");
@@ -98,6 +99,7 @@ const DashboardHeader = () => {
         <Button className="bg-primary hover:bg-primary/90 text-primary-foreground">
           <Sparkles size={18} className="mr-2" /> Create a Webinar
         </Button>
+        <UserButton afterSignOutUrl="/" />
       </div>
     </header>
   );
@@ -275,4 +277,3 @@ const Dashboard = () => {
     </div>
   );
 };
-
