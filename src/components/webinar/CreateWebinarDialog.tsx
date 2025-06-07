@@ -130,7 +130,7 @@ const SuccessScreen = ({ webinarLink, onCreateAnother, onPreview }: { webinarLin
         <Button type="button" variant="outline" className="w-full sm:flex-1" onClick={onPreview}>
           <ExternalLink className="mr-2 h-4 w-4" /> Preview Webinar
         </Button>
-        <Button type="button" variant="default" className="w-full sm:flex-1" onClick={onCreateAnother}>
+        <Button type="button" variant="secondary" className="w-full sm:flex-1" onClick={onCreateAnother}>
           <RefreshCw className="mr-2 h-4 w-4" /> Create Another Webinar
         </Button>
       </div>
@@ -707,5 +707,3 @@ export function CreateWebinarDialog({ trigger }: { trigger: React.ReactNode }) {
     </>
   );
 }
-
-    
