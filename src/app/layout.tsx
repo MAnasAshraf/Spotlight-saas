@@ -2,6 +2,7 @@ import type {Metadata} from 'next';
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
 // Removed ClerkProvider import
+// Removed dark theme import from @clerk/themes
 
 export const metadata: Metadata = {
   title: 'Spotlight',
