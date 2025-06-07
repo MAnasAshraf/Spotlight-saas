@@ -159,7 +159,7 @@ export function CreateWebinarDialog({ trigger }: { trigger: React.ReactNode }) {
                 </DialogHeader>
                 <Form {...form}>
                   <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 flex-grow flex flex-col justify-between">
-                    <div className="space-y-4 overflow-y-auto pr-2 max-h-[calc(500px-200px)]"> {/* Adjust max-h as needed */}
+                    <div className="space-y-4 overflow-y-auto px-2 max-h-[calc(500px-200px)]"> {/* Changed pr-2 to px-2 */}
                       <FormField
                         control={form.control}
                         name="webinarName"
