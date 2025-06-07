@@ -252,7 +252,7 @@ export function CreateWebinarDialog({ trigger }: { trigger: React.ReactNode }) {
         <DialogTrigger asChild>{trigger}</DialogTrigger>
         <DialogContent className={cn(
           "p-0 overflow-hidden",
-           isSuccessScreenVisible ? "sm:max-w-md" : "sm:max-w-3xl md:max-w-4xl lg:max-w-5xl"
+           isSuccessScreenVisible ? "sm:max-w-lg" : "sm:max-w-3xl md:max-w-4xl lg:max-w-5xl"
         )}>
           {isSuccessScreenVisible ? (
             <SuccessScreen
@@ -291,7 +291,7 @@ export function CreateWebinarDialog({ trigger }: { trigger: React.ReactNode }) {
                               )}
                             >
                               {step.status === 'complete' ? (
-                                  <Check className="h-4 w-4 text-foreground" />
+                                <Check className="h-4 w-4 text-foreground" />
                               ) : (
                                 <span
                                   className={cn(
@@ -365,7 +365,7 @@ export function CreateWebinarDialog({ trigger }: { trigger: React.ReactNode }) {
                               </FormItem>
                             )}
                           />
-                          <div className="grid grid-cols-2 gap-x-4 items-start pt-2">
+                           <div className="grid grid-cols-2 gap-x-4 items-start pt-2">
                             <FormField
                               control={form.control}
                               name="webinarDate"
