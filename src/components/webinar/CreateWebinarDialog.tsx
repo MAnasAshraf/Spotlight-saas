@@ -63,24 +63,24 @@ interface Step {
 }
 
 const initialSteps: Step[] = [
-  { 
-    id: 1, 
-    name: 'Basic Information', 
-    description: 'Please fill out the standard info needed for your webinar', 
+  {
+    id: 1,
+    name: 'Basic Information',
+    description: 'Please fill out the standard info needed for your webinar',
     status: 'current',
     fields: ['webinarName', 'description', 'webinarDate', 'webinarHour', 'webinarMinute', 'webinarPeriod', 'preRecordedVideo']
   },
-  { 
-    id: 2, 
-    name: 'CTA', 
-    description: 'Please provide the end-point for your customers through your webinar', 
+  {
+    id: 2,
+    name: 'CTA',
+    description: 'Please provide the end-point for your customers through your webinar',
     status: 'upcoming',
     fields: ['ctaLabel', 'ctaTags', 'ctaType', 'ctaProductSearch', 'ctaSelectedProduct']
   },
-  { 
-    id: 3, 
-    name: 'Additional Information', 
-    description: 'Please fill out information about additional options if necessary', 
+  {
+    id: 3,
+    name: 'Additional Information',
+    description: 'Please fill out information about additional options if necessary',
     status: 'upcoming',
     fields: [] // Add fields for step 3 later
   },
@@ -105,7 +105,7 @@ export function CreateWebinarDialog({ trigger }: { trigger: React.ReactNode }) {
       preRecordedVideo: null,
       ctaLabel: '',
       ctaTags: '',
-      // ctaType: 'buy_now', // Default to one option
+      // ctaType: 'buy_now', // Default to one option or leave undefined to force selection
       ctaProductSearch: '',
       ctaSelectedProduct: '',
     },
@@ -114,19 +114,6 @@ export function CreateWebinarDialog({ trigger }: { trigger: React.ReactNode }) {
 
   const activeStep = steps.find(s => s.id === currentStep);
 
-  const handleNextStep = async () => {
-    const currentStepConfig = steps.find(s => s.id === currentStep);
-    if (!currentStepConfig || !currentStepConfig.fields || currentStepConfig.fields.length === 0) {
-      proceedToNextStepUI();
-      return;
-    }
-
-    const isValid = await form.trigger(currentStepConfig.fields);
-    if (isValid) {
-      proceedToNextStepUI();
-    }
-  };
-  
   const proceedToNextStepUI = () => {
     if (currentStep < steps.length) {
       setSteps(prevSteps =>
@@ -142,6 +129,25 @@ export function CreateWebinarDialog({ trigger }: { trigger: React.ReactNode }) {
     }
   };
 
+  const handleNextStep = async () => {
+    const currentStepConfig = steps.find(s => s.id === currentStep);
+    // Ensure fields exist and are not empty before triggering validation
+    if (!currentStepConfig || !currentStepConfig.fields || currentStepConfig.fields.length === 0) {
+      // This case is for steps like 'Additional Information' if it has no fields to validate yet.
+      proceedToNextStepUI();
+      return;
+    }
+
+    const isValid = await form.trigger(currentStepConfig.fields); // Validates ONLY current step's fields
+    if (isValid) {
+      proceedToNextStepUI();
+    } else {
+      // Optional: Log errors or provide feedback if step validation fails
+      console.log(`Validation failed for step ${currentStep}`, form.formState.errors);
+    }
+  };
+
+
   const handlePreviousStep = () => {
     if (currentStep > 1) {
       setSteps(prevSteps =>
@@ -153,33 +159,44 @@ export function CreateWebinarDialog({ trigger }: { trigger: React.ReactNode }) {
       setCurrentStep(currentStep - 1);
     }
   };
-  
+
   const handleFinish = async () => {
     // Potentially trigger validation for the last step fields if any
     const lastStepConfig = steps.find(s => s.id === currentStep);
     if (lastStepConfig && lastStepConfig.fields && lastStepConfig.fields.length > 0) {
-      const isValid = await form.trigger(lastStepConfig.fields);
-      if (!isValid) return;
+      const isValidLastStep = await form.trigger(lastStepConfig.fields);
+      if (!isValidLastStep) {
+         console.log(`Validation failed for final step ${currentStep}`, form.formState.errors);
+        return;
+      }
     }
-    
-    // Or validate all fields if submitting everything at once
-    // const isValid = await form.trigger();
-    // if (!isValid) return;
+
+    // After validating the last step, we should also validate the entire form
+    // to ensure all required fields across all steps are now valid.
+    const allFieldsValid = await form.trigger(); // Trigger validation for ALL fields
+    if (!allFieldsValid) {
+        console.error("Overall form validation failed on Finish.", form.formState.errors);
+        // Potentially find the first step with an error and navigate there, or show a global error.
+        // For now, just preventing submission.
+        return;
+    }
 
     console.log("All steps complete! Finalizing webinar creation...", form.getValues());
-    setIsOpen(false); 
-    form.reset(); 
-    setSteps(initialSteps); 
+    setIsOpen(false);
+    form.reset();
+    setSteps(initialSteps);
     setCurrentStep(1);
   };
 
   const onSubmit = async (data: WebinarCreationFormData) => {
-    // This function is primarily for step 1's "Next" button due to form.handleSubmit
-    // or can be used if the entire form is submitted at once on "Finish"
-    console.log('Form Data Submitted:', data);
-    if (currentStep === 1) {
-      proceedToNextStepUI();
-    }
+    // This function is intended to be called by form.handleSubmit if a type="submit" button
+    // is used for the FINAL submission. Currently, handleFinish is used with a type="button".
+    console.log('Form Data Submitted (via form.handleSubmit):', data);
+    // If this function were used for the final submission:
+    // setIsOpen(false);
+    // form.reset();
+    // setSteps(initialSteps);
+    // setCurrentStep(1);
   };
 
 
@@ -189,13 +206,13 @@ export function CreateWebinarDialog({ trigger }: { trigger: React.ReactNode }) {
         setIsOpen(open);
         if (!open) {
           form.reset();
-          setSteps(initialSteps); 
+          setSteps(initialSteps);
           setCurrentStep(1);
         }
       }}>
         <DialogTrigger asChild>{trigger}</DialogTrigger>
         <DialogContent className="sm:max-w-3xl md:max-w-4xl lg:max-w-5xl p-0 overflow-hidden">
-          <div className="flex min-h-[550px]"> {/* Increased min-height for more content */}
+          <div className="flex min-h-[550px]">
             <div className="w-1/3 bg-muted/30 p-8 border-r border-border flex flex-col justify-center">
               <nav aria-label="Progress" className="mt-8">
                 <ol role="list" className="space-y-6">
@@ -430,7 +447,7 @@ export function CreateWebinarDialog({ trigger }: { trigger: React.ReactNode }) {
                       </>
                     )}
                     {currentStep === 2 && (
-                      <div className="space-y-6"> {/* Increased spacing for CTA step */}
+                      <div className="space-y-6">
                         <FormField
                           control={form.control}
                           name="ctaLabel"
@@ -560,7 +577,7 @@ export function CreateWebinarDialog({ trigger }: { trigger: React.ReactNode }) {
                         <DialogClose asChild>
                           <Button type="button" variant="ghost">Cancel</Button>
                         </DialogClose>
-                        <Button type="submit">Next</Button> {/* This uses form.handleSubmit */}
+                        <Button type="button" onClick={handleNextStep}>Next</Button>
                       </>
                     )}
                     {currentStep > 1 && currentStep <= steps.length && (
