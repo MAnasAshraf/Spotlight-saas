@@ -90,7 +90,7 @@ export default function SidebarDemo() {
 const DashboardHeader = () => {
   return (
     <header className="flex items-center justify-between p-6 py-5 border-b border-border">
-      <h1 className="text-xl font-semibold bg-gradient-to-r from-pink-500 via-pink-400 to-slate-500 text-transparent bg-clip-text">Dashboard</h1>
+      <h1 className="text-xl font-semibold text-foreground">Dashboard</h1>
       <div className="flex items-center gap-3">
         <Button variant="ghost" size="icon" className="iconBackground">
           <Zap size={20} className="text-foreground" />
@@ -275,4 +275,3 @@ const Dashboard = () => {
     </div>
   );
 };
-
