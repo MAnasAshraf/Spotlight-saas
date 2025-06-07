@@ -3,9 +3,9 @@
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { PlusCircle, Video } from 'lucide-react';
+import { Video } from 'lucide-react';
 import Link from 'next/link';
-import { CreateWebinarDialog } from '@/components/webinar/CreateWebinarDialog';
+// Removed CreateWebinarDialog import as creation is now centralized
 
 // Placeholder data for webinars - in a real app, this would come from an API
 const webinars = [
@@ -19,14 +19,7 @@ export default function WebinarsPage() {
     <div className="flex flex-1 flex-col bg-background text-foreground">
       <header className="flex items-center justify-between p-6 border-b border-border">
         <h1 className="text-2xl font-semibold text-foreground">My Webinars</h1>
-        <CreateWebinarDialog 
-          trigger={
-            <Button>
-              <PlusCircle size={20} className="mr-2" />
-              Create New Webinar
-            </Button>
-          }
-        />
+        {/* "Create New Webinar" button removed from here to centralize creation on the main dashboard */}
       </header>
       <main className="flex-1 p-6 space-y-6">
         {webinars.length === 0 ? (
@@ -34,13 +27,11 @@ export default function WebinarsPage() {
             <Video size={64} className="mb-4 text-muted-foreground" />
             <h2 className="text-xl font-semibold mb-2 text-foreground">No Webinars Yet</h2>
             <p className="text-muted-foreground mb-6">
-              Get started by creating your first live or pre-recorded webinar.
+              To create a webinar, please go to the main dashboard.
             </p>
-            <CreateWebinarDialog
-              trigger={
-                <Button size="lg">Create Your First Webinar</Button>
-              }
-            />
+            <Link href="/dashboard">
+              <Button size="lg">Go to Dashboard to Create</Button>
+            </Link>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
