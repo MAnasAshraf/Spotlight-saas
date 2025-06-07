@@ -10,28 +10,27 @@ import {
   Settings,
   UploadCloud,
   RadioTower, 
-  CheckCircle,
-  Zap,
-  ArrowRight,
   ChevronRight, 
   Check, 
+  Zap
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 export default function SidebarDemo() {
   const [activeLink, setActiveLink] = useState("Home");
   const links = [
     {
       label: "Home",
-      href: "#",
+      href: "/dashboard", // Changed from # to /dashboard for clarity
       icon: <HomeIcon />,
     },
     {
       label: "Webinars",
-      href: "#",
+      href: "/dashboard/webinars", // Updated href
       icon: <Film />,
     },
     {
@@ -95,10 +94,11 @@ const DashboardHeader = () => {
         <Button variant="ghost" size="icon" className="iconBackground">
           <Zap size={20} className="text-foreground" />
         </Button>
-        <Button className="bg-primary hover:bg-primary/90 text-primary-foreground">
-          <Sparkles size={18} className="mr-2" /> Create a Webinar
-        </Button>
-        {/* UserButton removed here */}
+        <Link href="/dashboard/webinars/create">
+          <Button className="bg-primary hover:bg-primary/90 text-primary-foreground">
+            <Sparkles size={18} className="mr-2" /> Create a Webinar
+          </Button>
+        </Link>
       </div>
     </header>
   );
@@ -112,7 +112,7 @@ interface StepItem {
 }
 
 const stepperData: StepItem[] = [
-  { id: 1, label: "Create a webinar", href: "#create-webinar", isCompleted: true },
+  { id: 1, label: "Create a webinar", href: "/dashboard/webinars/create", isCompleted: true },
   { id: 2, label: "Get leads for your webinar", href: "#get-leads", isCompleted: false },
   { id: 3, label: "Track conversion status", href: "#track-conversion", isCompleted: false },
 ];
@@ -128,7 +128,7 @@ const VerticalStepper = ({ steps }: { steps: StepItem[] }) => {
       </p>
       <div className="space-y-3">
         {steps.map((step) => (
-          <a
+          <Link
             key={step.id}
             href={step.href}
             className="flex items-center justify-between p-4 rounded-lg bg-card border border-border hover:bg-muted transition-colors cursor-pointer group"
@@ -151,7 +151,7 @@ const VerticalStepper = ({ steps }: { steps: StepItem[] }) => {
               <span className="text-foreground text-sm group-hover:text-primary">{step.label}</span>
             </div>
             <ChevronRight size={20} className="text-muted-foreground group-hover:text-primary" />
-          </a>
+          </Link>
         ))}
       </div>
     </div>
@@ -159,7 +159,7 @@ const VerticalStepper = ({ steps }: { steps: StepItem[] }) => {
 };
 
 
-const ActionCard = ({ icon, title, description, href }: { icon: React.ReactNode, title: string, description: string, href?: string }) => {
+const ActionCard = ({ icon, title, description, href, actionText = "View" }: { icon: React.ReactNode, title: string, description: string, href?: string, actionText?: string }) => {
   return (
     <Card className="bg-card border-border text-foreground flex flex-col">
       <CardHeader className="pb-3">
@@ -173,9 +173,9 @@ const ActionCard = ({ icon, title, description, href }: { icon: React.ReactNode,
       </CardContent>
       {href && (
         <CardFooter>
-          <a href={href} className="text-sm text-primary hover:text-primary/80 flex items-center">
-            View <ArrowRight size={16} className="ml-1" />
-          </a>
+          <Link href={href} className="text-sm text-primary hover:text-primary/80 flex items-center">
+            {actionText} <ChevronRight size={16} className="ml-1" />
+          </Link>
         </CardFooter>
       )}
     </Card>
@@ -226,11 +226,15 @@ const Dashboard = () => {
             icon={<UploadCloud size={22} />}
             title="Browse or drag a pre-recorded webinar file"
             description="Easily upload your existing webinar content to get started."
+            href="/dashboard/webinars/create"
+            actionText="Upload Webinar"
           />
           <ActionCard 
             icon={<RadioTower size={22} />} 
             title="Go live and interact with your audience in real-time"
             description="Engage your viewers with live sessions and Q&A."
+            href="/dashboard/webinars/create?live=true"
+            actionText="Go Live"
           />
         </div>
 
@@ -249,9 +253,9 @@ const Dashboard = () => {
               ))}
             </CardContent>
             <CardFooter className="justify-end pt-4">
-               <a href="#" className="text-sm text-primary hover:text-primary/80 flex items-center">
-                View All <ArrowRight size={16} className="ml-1" />
-              </a>
+               <Link href="#" className="text-sm text-primary hover:text-primary/80 flex items-center">
+                View All <ChevronRight size={16} className="ml-1" />
+              </Link>
             </CardFooter>
           </Card>
 
@@ -266,9 +270,9 @@ const Dashboard = () => {
               ))}
             </CardContent>
              <CardFooter className="justify-end pt-4">
-               <a href="#" className="text-sm text-primary hover:text-primary/80 flex items-center">
-                View All <ArrowRight size={16} className="ml-1" />
-              </a>
+               <Link href="#" className="text-sm text-primary hover:text-primary/80 flex items-center">
+                View All <ChevronRight size={16} className="ml-1" />
+              </Link>
             </CardFooter>
           </Card>
         </div>
@@ -276,3 +280,5 @@ const Dashboard = () => {
     </div>
   );
 };
+
+    
