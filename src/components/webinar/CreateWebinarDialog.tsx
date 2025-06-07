@@ -254,7 +254,7 @@ export function CreateWebinarDialog({ trigger }: { trigger: React.ReactNode }) {
           "p-0", 
           isSuccessScreenVisible 
             ? "sm:max-w-xl" 
-            : "sm:max-w-3xl md:max-w-4xl lg:max-w-5xl overflow-hidden" 
+            : "sm:max-w-2xl md:max-w-3xl lg:max-w-4xl overflow-hidden" 
         )}>
           {isSuccessScreenVisible ? (
             <SuccessScreen
@@ -274,7 +274,7 @@ export function CreateWebinarDialog({ trigger }: { trigger: React.ReactNode }) {
             />
           ) : (
             <div className="flex min-h-[550px]">
-              <div className="w-1/3 bg-muted/30 p-8 border-r border-border flex flex-col justify-center">
+              <div className="w-1/3 bg-muted/30 p-6 border-r border-border flex flex-col justify-center">
                 <nav aria-label="Progress">
                   <ol role="list" className="space-y-6">
                     {steps.map((step, stepIdx) => (
@@ -324,7 +324,7 @@ export function CreateWebinarDialog({ trigger }: { trigger: React.ReactNode }) {
                 </nav>
               </div>
 
-              <div className="w-2/3 p-8 flex flex-col">
+              <div className="w-2/3 p-6 flex flex-col">
                 <DialogHeader className="mb-6 text-left px-0 pt-0">
                   <DialogTitle className="text-xl">{activeStep?.name}</DialogTitle>
                   <p className="text-sm text-muted-foreground">
@@ -675,7 +675,7 @@ export function CreateWebinarDialog({ trigger }: { trigger: React.ReactNode }) {
                       )}
                     </div>
 
-                    <DialogFooter className="pt-6 mt-auto sticky bottom-0 bg-background pb-8 px-8 -mx-8 border-t border-border">
+                    <DialogFooter className="pt-6 mt-auto sticky bottom-0 bg-background pb-6 px-6 -mx-6 border-t border-border">
                       {currentStep === 1 && (
                          <>
                           <DialogClose asChild>
@@ -708,3 +708,4 @@ export function CreateWebinarDialog({ trigger }: { trigger: React.ReactNode }) {
   );
 }
 
+    
