@@ -251,8 +251,10 @@ export function CreateWebinarDialog({ trigger }: { trigger: React.ReactNode }) {
       }}>
         <DialogTrigger asChild>{trigger}</DialogTrigger>
         <DialogContent className={cn(
-          "p-0 overflow-hidden",
-           isSuccessScreenVisible ? "sm:max-w-lg" : "sm:max-w-3xl md:max-w-4xl lg:max-w-5xl"
+          "p-0", // Default p-0 for multi-step view. SuccessScreen handles its own padding.
+          isSuccessScreenVisible 
+            ? "sm:max-w-lg glowing-border-modal" // Apply glowing border and ensure overflow is visible via class
+            : "sm:max-w-3xl md:max-w-4xl lg:max-w-5xl overflow-hidden" // Standard view
         )}>
           {isSuccessScreenVisible ? (
             <SuccessScreen
@@ -365,8 +367,8 @@ export function CreateWebinarDialog({ trigger }: { trigger: React.ReactNode }) {
                               </FormItem>
                             )}
                           />
-                           <div className="grid grid-cols-2 gap-x-4 items-start pt-2">
-                            <FormField
+                           <div className="grid grid-cols-2 gap-x-4 items-end pt-2">
+                             <FormField
                               control={form.control}
                               name="webinarDate"
                               render={({ field }) => (
@@ -406,10 +408,10 @@ export function CreateWebinarDialog({ trigger }: { trigger: React.ReactNode }) {
                               )}
                             />
                             <div className="space-y-2">
-                              <Label className="flex items-center text-sm font-medium">
+                               <FormLabel className="flex items-center text-sm font-medium">
                                 Webinar Time *
                                 <Clock size={16} className="ml-1.5 opacity-70" />
-                              </Label>
+                              </FormLabel>
                               <div className="grid grid-cols-3 gap-x-2">
                                 <FormField
                                   control={form.control}
@@ -705,3 +707,4 @@ export function CreateWebinarDialog({ trigger }: { trigger: React.ReactNode }) {
     </>
   );
 }
+
