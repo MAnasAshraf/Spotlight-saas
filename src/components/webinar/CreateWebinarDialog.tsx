@@ -99,7 +99,7 @@ export function CreateWebinarDialog({ trigger }: { trigger: React.ReactNode }) {
       <DialogContent className="sm:max-w-3xl md:max-w-4xl lg:max-w-5xl p-0 overflow-hidden">
         <div className="flex min-h-[500px]">
           {/* Stepper Section */}
-          <div className="w-1/3 bg-muted/30 p-8 border-r border-border flex flex-col justify-center">
+          <div className="w-1/3 bg-muted/30 p-8 border-r border-border flex flex-col">
             <nav aria-label="Progress">
               <ol role="list" className="space-y-6">
                 {steps.map((step, stepIdx) => (
@@ -355,5 +355,7 @@ export function CreateWebinarDialog({ trigger }: { trigger: React.ReactNode }) {
     </Dialog>
   );
 }
+
+    
 
     
