@@ -32,7 +32,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Calendar } from '@/components/ui/calendar';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Label } from '@/components/ui/label'; // Added for the group label
+import { Label } from '@/components/ui/label';
 import { CalendarIcon, Clock, Check, UploadCloud } from 'lucide-react';
 
 const basicInfoSchema = z.object({
@@ -160,8 +160,8 @@ export function CreateWebinarDialog({ trigger }: { trigger: React.ReactNode }) {
                   </p>
                 </DialogHeader>
                 <Form {...form}>
-                  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 flex-grow flex flex-col justify-between">
-                    <div className="space-y-4 overflow-y-auto px-2 max-h-[calc(500px-200px)]"> {/* Added px-2 for horizontal padding */}
+                  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 flex-grow flex flex-col">
+                    <div className="space-y-4 overflow-y-auto px-2 flex-1 min-h-0">
                       <FormField
                         control={form.control}
                         name="webinarName"
@@ -232,8 +232,7 @@ export function CreateWebinarDialog({ trigger }: { trigger: React.ReactNode }) {
                         )}
                       />
 
-                      {/* Time Selection Group */}
-                      <div className="space-y-2 pt-2"> {/* Added pt-2 for spacing from date field */}
+                      <div className="space-y-2 pt-2">
                         <Label className="flex items-center text-sm font-medium">
                           Webinar Time *
                           <Clock size={16} className="ml-1.5 opacity-70" />
@@ -335,7 +334,7 @@ export function CreateWebinarDialog({ trigger }: { trigger: React.ReactNode }) {
                         )}
                       />
                     </div>
-                    <DialogFooter className="pt-6 mt-auto">
+                    <DialogFooter className="pt-6">
                        <DialogClose asChild>
                         <Button type="button" variant="ghost">Cancel</Button>
                        </DialogClose>
