@@ -41,7 +41,7 @@ const basicInfoSchema = z.object({
   webinarHour: z.string().min(1, 'Hour is required'),
   webinarMinute: z.string().min(1, 'Minute is required'),
   webinarPeriod: z.enum(['AM', 'PM'], { required_error: 'AM/PM is required' }),
-  // preRecordedVideo: z.instanceof(File).optional(), // For later if we handle file uploads
+  preRecordedVideo: z.instanceof(File).optional().nullable(),
 });
 
 type BasicInfoFormData = z.infer<typeof basicInfoSchema>;
@@ -75,6 +75,7 @@ export function CreateWebinarDialog({ trigger }: { trigger: React.ReactNode }) {
       webinarHour: '12',
       webinarMinute: '00',
       webinarPeriod: 'PM',
+      preRecordedVideo: null,
     },
   });
 
@@ -159,7 +160,7 @@ export function CreateWebinarDialog({ trigger }: { trigger: React.ReactNode }) {
                 </DialogHeader>
                 <Form {...form}>
                   <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 flex-grow flex flex-col justify-between">
-                    <div className="space-y-4 overflow-y-auto px-2 max-h-[calc(500px-200px)]"> {/* Changed pr-2 to px-2 */}
+                    <div className="space-y-4 overflow-y-auto px-2 max-h-[calc(500px-200px)]">
                       <FormField
                         control={form.control}
                         name="webinarName"
@@ -296,15 +297,33 @@ export function CreateWebinarDialog({ trigger }: { trigger: React.ReactNode }) {
                           )}
                         />
                       </div>
-                      <div className="pt-2">
-                        <p className="text-xs text-muted-foreground mb-2">
-                          <UploadCloud className="inline h-3 w-3 mr-1"/>
-                          Uploading a video makes this webinar pre-recorded.
-                        </p>
-                        <Button type="button" variant="outline" className="w-full">
-                           Upload File
-                        </Button>
-                      </div>
+                      <FormField
+                        control={form.control}
+                        name="preRecordedVideo"
+                        render={({ field }) => (
+                          <FormItem className="pt-2">
+                            <FormLabel>Pre-recorded Video (Optional)</FormLabel>
+                            <FormControl>
+                              <Input
+                                type="file"
+                                accept="video/*"
+                                name={field.name}
+                                ref={field.ref}
+                                onBlur={field.onBlur}
+                                onChange={(e) => {
+                                  field.onChange(e.target.files && e.target.files.length > 0 ? e.target.files[0] : null);
+                                }}
+                                className="block w-full text-sm file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20 cursor-pointer"
+                              />
+                            </FormControl>
+                            <FormDescription>
+                              <UploadCloud className="inline h-3 w-3 mr-1 opacity-70"/>
+                              Uploading a video makes this webinar pre-recorded.
+                            </FormDescription>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
                     </div>
                     <DialogFooter className="pt-6 mt-auto">
                        <DialogClose asChild>
