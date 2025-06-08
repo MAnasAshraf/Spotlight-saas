@@ -2,6 +2,4 @@
 // Clerk authentication has been removed.
 // Please manually delete this file and its containing folder: /src/app/auth/sign-up/[[...sign-up]]
 // The sign-up functionality is now handled by /src/app/auth/sign-up/page.tsx
-export default function SignUpPagePlaceholderToRemove() {
-  return null;
-}
+// Removing default export to prevent route conflict.
