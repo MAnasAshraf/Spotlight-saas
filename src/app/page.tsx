@@ -18,24 +18,27 @@ export default function HomePage() {
         
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
           <Link href="/dashboard">
-            <Button 
-              size="lg" 
-              variant="secondary" 
-              className="bg-primary-foreground text-primary hover:bg-primary-foreground/90 w-full sm:w-auto hover:scale-105 hover:shadow-lg transition-all duration-200"
+            <Button
+              size="lg"
+              variant="secondary"
+              className="relative overflow-hidden group 
+                         bg-primary-foreground text-primary 
+                         hover:text-primary-foreground 
+                         w-full sm:w-auto 
+                         transition-colors duration-300 ease-in-out"
             >
-              Go to Dashboard <ArrowRight size={20} className="ml-2" />
+              <span
+                className="absolute inset-0 w-full h-full bg-foreground 
+                           transform -translate-x-full 
+                           group-hover:translate-x-0 
+                           transition-transform duration-300 ease-in-out"
+              ></span>
+              <span className="relative z-10 flex items-center">
+                Go to Dashboard <ArrowRight size={20} className="ml-2" />
+              </span>
             </Button>
           </Link>
         </div>
-
-        {/* The "Trusted by" text section below is now removed */}
-        {/* 
-        <div className="mb-6">
-          <p className="text-sm text-muted-foreground">
-            Trusted by Founders and Entrepreneurs from all over the world
-          </p>
-        </div> 
-        */}
       </div>
     </div>
   );
