@@ -18,7 +18,11 @@ export default function HomePage() {
         
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
           <Link href="/dashboard">
-            <Button size="lg" variant="secondary" className="bg-primary-foreground text-primary hover:bg-primary-foreground/90 w-full sm:w-auto">
+            <Button 
+              size="lg" 
+              variant="secondary" 
+              className="bg-primary-foreground text-primary hover:bg-primary-foreground/90 w-full sm:w-auto hover:scale-105 hover:shadow-lg transition-all duration-200"
+            >
               Go to Dashboard <ArrowRight size={20} className="ml-2" />
             </Button>
           </Link>
@@ -36,4 +40,3 @@ export default function HomePage() {
     </div>
   );
 }
-
