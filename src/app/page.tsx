@@ -24,13 +24,16 @@ export default function HomePage() {
           </Link>
         </div>
 
+        {/* The "Trusted by" text section below is now removed */}
+        {/* 
         <div className="mb-6">
           <p className="text-sm text-muted-foreground">
             Trusted by Founders and Entrepreneurs from all over the world
           </p>
-        </div>
-        {/* Avatar images section removed */}
+        </div> 
+        */}
       </div>
     </div>
   );
 }
+
